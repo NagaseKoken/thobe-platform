@@ -27,7 +27,11 @@
     "@radix-ui/react-select": "^2.2.2",
 >>>>>>> 4ce93c2 (added reusable components for the admin)
     "@radix-ui/react-slot": "^1.2.0",
+<<<<<<< HEAD
     "@radix-ui/react-tabs": "^1.1.7",
+=======
+    "@radix-ui/react-tabs": "^1.1.4",
+>>>>>>> 0ca0e14 (Completed the first page of the owner ones.)
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.27",
