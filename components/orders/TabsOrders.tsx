@@ -1,8 +1,6 @@
 "use client";
 
-import OrderTable from "@/components/orders/OrderTable";
-import CompletedOrderTable from "@/components/orders/CompletedOrderTable"; // ✅ NEW import
-
+import OrderTable, { Order } from "@/components/orders/OrderTable";
 import {
   Tabs,
   TabsList,
@@ -11,16 +9,28 @@ import {
 } from "@/components/ui/tabs";
 import { PackageSearch, PackageCheck } from "lucide-react";
 
+const activeOrders: Order[] = [
+  { name: "Mohammed Al Naser", updated: "5 Min Ago", status: "New Order" },
+  { name: "Ali AlBugeeay", updated: "Yesterday", status: "Ready for Pickup" },
+  { name: "Moammal Almahfoudh", updated: "2 Days Ago", status: "In Production" },
+];
+
+const completedOrders: Order[] = [
+  { name: "Salim AlDossari", updated: "2 Weeks Ago", status: "Completed" },
+  { name: "Mona AlShehri", updated: "3 Weeks Ago", status: "Completed" },
+];
+
 export default function TabsOrders() {
   return (
     <Tabs defaultValue="active" className="w-full">
       {/* Tab Buttons */}
-      <TabsList className="bg-transparent border-b border-gray-200 px-0 mb-4">
+      <TabsList className="inline-flex bg-white p-1 rounded-lg shadow-md mb-4">
         <TabsTrigger
           value="active"
-          className="flex items-center gap-2 text-sm font-medium border-b-2 border-transparent rounded-none px-4 py-2
-                     data-[state=active]:border-black data-[state=active]:text-black
-                     hover:text-red-600 hover:border-red-600 transition"
+          className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md
+            data-[state=active]:bg-white data-[state=active]:border data-[state=active]:border-black
+            data-[state=active]:shadow-sm
+            hover:bg-green-300 transition"
         >
           <PackageSearch className="w-4 h-4" />
           Active Orders
@@ -28,9 +38,10 @@ export default function TabsOrders() {
 
         <TabsTrigger
           value="completed"
-          className="flex items-center gap-2 text-sm font-medium border-b-2 border-transparent rounded-none px-4 py-2
-                     data-[state=active]:border-black data-[state=active]:text-black
-                     hover:text-green-600 hover:border-green-600 transition"
+          className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md
+            data-[state=active]:bg-white data-[state=active]:border data-[state=active]:border-black
+            data-[state=active]:shadow-sm
+            hover:bg-red-300 transition"
         >
           <PackageCheck className="w-4 h-4" />
           Completed Orders
@@ -39,11 +50,11 @@ export default function TabsOrders() {
 
       {/* Tab Panels */}
       <TabsContent value="active">
-        <OrderTable />
+        <OrderTable orders={activeOrders} />
       </TabsContent>
 
       <TabsContent value="completed">
-        <CompletedOrderTable /> {/* ✅ Replaces the placeholder */}
+        <OrderTable orders={completedOrders} />
       </TabsContent>
     </Tabs>
   );

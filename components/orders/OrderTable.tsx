@@ -1,44 +1,50 @@
 import StatusBadge from "@/components/reusable/StatusBadge";
 
-interface Order {
+export interface Order {
   name: string;
   updated: string;
-  status: "New Order" | "In Production" | "Ready for Pickup";
+  status: "New Order" | "In Production" | "Ready for Pickup" | "Completed";
 }
 
-const orders: Order[] = [
-  { name: "Mohammed Al Naser", updated: "5 Min Ago", status: "New Order" },
-  { name: "Ali AlBugeeay", updated: "Yesterday", status: "Ready for Pickup" },
-  { name: "Moammal Almahfoudh", updated: "2 Days Ago", status: "In Production" },
-  { name: "Reda Alali", updated: "4 Days Ago", status: "In Production" },
-  { name: "Husian Al Muallim", updated: "5 Days Ago", status: "Ready for Pickup" },
-  { name: "Abdulrhman Al faleh", updated: "12 Days Ago", status: "In Production" },
-  { name: "Mohammed Ali", updated: "Last Month", status: "Ready for Pickup" },
-  { name: "Ahmed Mohammed", updated: "2 Months Ago", status: "Ready for Pickup" },
-  { name: "Yasmine Kamel", updated: "2 Months Ago", status: "Ready for Pickup" },
-];
+interface OrderTableProps {
+  orders: Order[];
+}
 
-export default function OrderTable() {
+export default function OrderTable({ orders }: OrderTableProps) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-md border border-gray-400">
       <table className="w-full text-sm text-left">
-        <thead className="border-b border-gray-300">
-          <tr>
-            <th className="py-2 px-4 font-medium text-gray-600">Orders</th>
-            <th className="py-2 px-4 font-medium text-gray-600">Last Update</th>
-            <th className="py-2 px-4 font-medium text-gray-600">Status</th>
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="py-3 px-4 font-medium text-gray-600">Orders</th>
+            <th className="py-3 px-4 font-medium text-gray-600">Last Update</th>
+            <th className="py-3 px-4 font-medium text-gray-600">Status</th>
           </tr>
         </thead>
-        <tbody>
-          {orders.map((order, index) => (
-            <tr key={index} className="border-b border-gray-200">
-              <td className="py-3 px-4">{order.name}</td>
-              <td className="py-3 px-4">{order.updated}</td>
-              <td className="py-3 px-4">
-                <StatusBadge status={order.status} />
+        <tbody className="divide-y divide-gray-500">
+          {orders.length > 0 ? (
+            orders.map((order, index) => (
+              <tr
+                key={index}
+                className="hover:bg-gray-200 transition-colors duration-150"
+              >
+                <td className="py-3 px-4">{order.name}</td>
+                <td className="py-3 px-4">{order.updated}</td>
+                <td className="py-3 px-4">
+                  <StatusBadge status={order.status} />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={3}
+                className="py-6 text-center text-gray-400 bg-white"
+              >
+                No orders to show.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

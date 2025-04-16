@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import  Navbar  from '@/components/reusable/navbar';
+import  Navbar  from '@/components/reusable/Navbar';
 import Footer from '@/components/reusable/Footer';
 import { Clipboard, ShoppingBag, User } from 'lucide-react';
 

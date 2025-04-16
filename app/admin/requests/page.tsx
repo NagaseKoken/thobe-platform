@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Menu } from "lucide-react";
-import {Navbar} from "@/components/reusable/navbar";
+import {Navbar} from "@/components/reusable/Navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import Footer from "@/components/reusable/Footer";
 import { RequestsTable, Request } from "@/components/admin/RequestTable";

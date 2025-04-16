@@ -1,26 +1,43 @@
-import TopNavbar from "@/components/reusable/TopNavbar";
+"use client";
+
+import Navbar from "@/components/reusable/Navbar";
 import PageLayout from "@/components/reusable/PageLayout";
 import HeaderSection from "@/components/reusable/HeaderSection";
+import OrderFooter from "@/components/reusable/OrderFooter";
 import TabsOrders from "@/components/orders/TabsOrders";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
 
 export default function OrdersPage() {
   return (
     <>
-      <TopNavbar />
+      <Navbar />
+
       <PageLayout>
         <HeaderSection
           title="Viewing Orders"
-          actionText="Share"
           titleSuffix={
-            <div className="flex items-center gap-2 text-sm font-medium bg-gray-100 text-black px-3 py-1 rounded-full">
-              <span className="h-2 w-2 bg-green-500 rounded-full" />
-              Active
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-2">
+                <Button className="bg-gray-600 hover:bg-red-500 text-white">
+                  Share
+                </Button>
+                <Button variant="ghost" size="icon" aria-label="More options">
+                  <MoreHorizontal className="w-5 h-5" />
+                </Button>
+              </div>
             </div>
           }
         />
 
-        <TabsOrders />
+        <main>
+          <TabsOrders />
+        </main>
       </PageLayout>
+
+      <OrderFooter />
     </>
   );
 }

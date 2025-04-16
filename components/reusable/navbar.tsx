@@ -15,7 +15,7 @@ const Navbar = ({admin, owner}: NavBarProps) => {
     return ( 
         <div className="px-4 py-3 flex justify-between items-center">
             <div className="text-3xl">THOBEMARKET</div>
-            <div className="flex justify-center gap-8 items-center text-xl ">
+            <div className="hidden justify-center gap-8 items-center text-xl md:flex">
                 <div className="xl:font-semibold font-xl xl:text-2xl "><Link href="/home">Home</Link></div>
                 <div className="xl:font-semibold font-xl xl:text-2xl "><Link href="/home/stores">Stores</Link></div>
                 {admin && <div>Dashboard</div>}

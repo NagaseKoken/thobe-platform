@@ -2,27 +2,36 @@
 
 import { Button } from "@/components/ui/button";
 import { FileText, PlusCircle, Trash2, PenLine } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 const sidebarLinks = [
-  { icon: <FileText size={18} />, label: "View Orders" },
-  { icon: <PlusCircle size={18} />, label: "Add products & fabrics" },
-  { icon: <Trash2 size={18} />, label: "Delete products & fabrics" },
-  { icon: <PenLine size={18} />, label: "Make a complaint" },
+  { icon: <FileText size={20} />, label: "View Orders", href: "/orders" },
+  { icon: <PlusCircle size={20} />, label: "Add products & fabrics", href: "/products" },
+  { icon: <Trash2 size={20} />, label: "Delete products & fabrics", href: "#" },
+  { icon: <PenLine size={20} />, label: "Make a complaint", href: "#" },
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
+
   return (
-    <aside className="w-64 bg-[#ffffff] text-black p-6">
-      <nav className="flex flex-col space-y-2">
+    <aside className="w-80 bg-white text-black px-6 py-10 border-r border-gray-200">
+      <nav role="navigation" aria-label="Sidebar menu" className="flex flex-col space-y-3">
         {sidebarLinks.map((link, index) => (
-          <Button
-            key={index}
-            variant="ghost"
-            className="justify-start px-3 text-left hover:bg-gray-200 transition w-full"
-          >
-            <span className="mr-2">{link.icon}</span>
-            {link.label}
-          </Button>
+          <Link href={link.href} key={index}>
+            <Button
+              variant="ghost"
+              className={clsx(
+                "justify-start px-3 text-left w-full text-base transition hover:bg-gray-200",
+                pathname === link.href && "bg-gray-100 font-semibold"
+              )}
+            >
+              <span className="mr-3">{link.icon}</span>
+              {link.label}
+            </Button>
+          </Link>
         ))}
       </nav>
     </aside>

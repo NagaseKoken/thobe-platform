@@ -1,5 +1,5 @@
 import { CartItem } from "@/components/reusable/cart-item";
-import { Navbar } from "@/components/reusable/navbar";
+import { Navbar } from "@/components/reusable/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {

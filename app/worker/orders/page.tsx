@@ -8,7 +8,7 @@ import {
   MagnifyingGlassIcon,
   UserIcon
 } from "@heroicons/react/24/outline";
-import {Navbar} from "@/components/reusable/navbar";
+import {Navbar} from "@/components/reusable/Navbar";
 import Footer from "@/components/reusable/Footer";
 
 export type OrderStatus = "In Production" | "Ready for Pickup" | "Picked Up";
