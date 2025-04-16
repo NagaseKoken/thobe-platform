@@ -1,4 +1,4 @@
-import Navbar from "@/components/reusable/navbar";
+import Navbar from "@/components/reusable/Navbar";
 import { Button } from "@/components/ui/button";
 const Home = () => {
     return ( 
