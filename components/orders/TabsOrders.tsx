@@ -23,8 +23,11 @@ const completedOrders: Order[] = [
 export default function TabsOrders() {
   return (
     <Tabs defaultValue="active" className="w-full">
-      {/* Tab Buttons */}
-      <TabsList className="inline-flex bg-white p-1 rounded-lg shadow-md mb-4">
+      {/* Tab Triggers */}
+      <TabsList
+        aria-label="Order Tabs"
+        className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 bg-white p-2 rounded-lg shadow mb-4"
+      >
         <TabsTrigger
           value="active"
           className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md
@@ -48,7 +51,7 @@ export default function TabsOrders() {
         </TabsTrigger>
       </TabsList>
 
-      {/* Tab Panels */}
+      {/* Tab Content */}
       <TabsContent value="active">
         <OrderTable orders={activeOrders} />
       </TabsContent>
