@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBagIcon, ClipboardIcon, UserIcon } from '@heroicons/react/24/outline';
 import Navbar from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
+import { Clipboard, ShoppingBag, User } from 'lucide-react';
 
 type Fabric = {
   id: number;
@@ -46,7 +46,7 @@ const Sidebar: React.FC = () => (
   href="/worker"
   className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50"
 >
-  <UserIcon className="w-5 h-5 mr-3" />
+  <User className="w-5 h-5 mr-3" />
   Profile
 </Link>
 
@@ -54,14 +54,14 @@ const Sidebar: React.FC = () => (
           href="/worker/orders"
           className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50"
         >
-          <ShoppingBagIcon className="w-5 h-5 mr-3" /> Orders
+          <ShoppingBag className="w-5 h-5 mr-3" /> Orders
         </Link>
         <Link
           href="/worker/Fabrics&Products"
           className="flex items-center px-3 py-2 rounded-md bg-orange-50 text-orange-600 font-medium"
 
         >
-          <ClipboardIcon className="w-5 h-5 mr-3" /> Fabrics & Products
+          <Clipboard className="w-5 h-5 mr-3" /> Fabrics & Products
         </Link>
       </nav>
     </div>
