@@ -7,23 +7,23 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-interface OrderFiltersProps {
+interface RequestFiltersProps {
   currentFilter: string;
   onFilterChange: (filter: string) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
 }
 
-export function OrderFilters({ 
-  currentFilter, 
+export function RequestFilters({
+  currentFilter,
   onFilterChange,
   searchQuery,
   onSearchChange
-}: OrderFiltersProps) {
+}: RequestFiltersProps) {
   return (
     <div className="flex flex-wrap items-center gap-4 mb-6">
-      <Input 
-        placeholder="Search by Order ID or Customer" 
+      <Input
+        placeholder="Search by Store Owner or Request ID"
         className="flex-1 min-w-[200px]"
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
@@ -42,11 +42,11 @@ export function OrderFilters({
           <DropdownMenuItem onClick={() => onFilterChange("pending")}>
             Pending
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onFilterChange("shipped")}>
-            Shipped
+          <DropdownMenuItem onClick={() => onFilterChange("approved")}>
+            Approved
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onFilterChange("delivered")}>
-            Delivered
+          <DropdownMenuItem onClick={() => onFilterChange("rejected")}>
+            Rejected
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
