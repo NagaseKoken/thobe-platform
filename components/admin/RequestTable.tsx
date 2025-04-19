@@ -1,6 +1,11 @@
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export type Request = {
   id: string;
@@ -20,7 +25,6 @@ export function RequestsTable({ items }: RequestsTableProps) {
         <TableRow>
           <TableHead>Store Owner</TableHead>
           <TableHead>Request Type</TableHead>
-          <TableHead>Actions</TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
@@ -29,20 +33,35 @@ export function RequestsTable({ items }: RequestsTableProps) {
           <TableRow key={item.id}>
             <TableCell>{item.storeOwner}</TableCell>
             <TableCell>{item.requestType}</TableCell>
-            <TableCell className="space-x-2">
-              <Button size="sm" variant="outline">Accept</Button>
-              <Button size="sm" variant="outline">Reject</Button>
-            </TableCell>
             <TableCell>
-              <Badge
-                variant={
-                  item.status === "Approved" ? "default" :
-                  item.status === "Rejected" ? "destructive" :
-                  "secondary"
-                }
-              >
-                {item.status}
-              </Badge>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Badge 
+                    variant={
+                      item.status === "Approved" ? "default" :
+                      item.status === "Rejected" ? "destructive" :
+                      "secondary"
+                    }
+                    className="cursor-pointer"
+                  >
+                    {item.status}
+                  </Badge>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem 
+                    className="text-green-600"
+                    disabled={item.status === "Approved"}
+                  >
+                    Approve
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="text-red-600"
+                    disabled={item.status === "Rejected"}
+                  >
+                    Reject
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </TableCell>
           </TableRow>
         ))}
