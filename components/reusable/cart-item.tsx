@@ -4,7 +4,7 @@ import { Label } from "@/components//ui/label";
 import { Trash2 } from 'lucide-react';
 export const CartItem = () => {
     return ( 
-        <div className="flex shadow-sm border-y-1 gap-4 p-4 rounded-md">
+        <div className="flex shadow-sm border-y-1 gap-4 p-4 rounded-md md:w-[550px]">
             <Image src="/store.png" alt="arm image" width={150} height={150} className="rounded-md"/>
             <div className="flex flex-col justify-between ">
                 <div className="font-semibold">name & Description & price</div>
