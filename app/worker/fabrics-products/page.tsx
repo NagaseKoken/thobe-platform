@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/reusable/navbar';
+import  Navbar  from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
 import { Clipboard, ShoppingBag, User } from 'lucide-react';
 
@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => (
           <ShoppingBag className="w-5 h-5 mr-3" /> Orders
         </Link>
         <Link
-          href="/worker/Fabrics&Products"
+          href="/worker/fabrics-products"
           className="flex items-center px-3 py-2 rounded-md bg-orange-50 text-orange-600 font-medium"
 
         >

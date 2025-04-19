@@ -3,6 +3,7 @@ import { ItemsCard } from "@/components/reusable/items";
 import { Navbar } from "@/components/reusable/navbar";
 import {stores} from "@/components/reusable/store-card"
 import Image from 'next/image';
+import Footer from "@/components/reusable/Footer";
 
 interface StoreProps {
     params:{ storeId: string },
@@ -30,6 +31,9 @@ const StorePage = async ({params}:StoreProps) => {
             {store && (
                 <ItemsCard storeId={store.id} imageString="" itemId="" name="" price={1} type="" />
             )}
+            <div className="mt-20">
+                <Footer />
+            </div>
         </div> 
     );
 }
