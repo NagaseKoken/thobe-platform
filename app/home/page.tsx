@@ -1,6 +1,6 @@
 import Footer from "@/components/reusable/Footer";
 import { MeasurementCard } from "@/components/reusable/measurement";
-import Navbar  from "@/components/reusable/Navbar";
+import Navbar  from "@/components/reusable/navbar";
 import { StoreCard } from "@/components/reusable/store-card";
 import { Button } from "@/components/ui/button";
 

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingBagIcon, ClipboardIcon } from '@heroicons/react/24/outline';
-import Navbar from '@/components/reusable/Navbar';
+import Navbar from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
 
 type Fabric = {
