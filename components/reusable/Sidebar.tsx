@@ -7,8 +7,8 @@ import { FileText, PlusCircle, Trash2, PenLine, X } from "lucide-react";
 const sidebarLinks = [
   { icon: <FileText size={20} />, label: "View Orders", href: "/orders" },
   { icon: <PlusCircle size={20} />, label: "Add products & fabrics", href: "/products" },
-  { icon: <Trash2 size={20} />, label: "Delete products & fabrics", href: "#" },
-  { icon: <PenLine size={20} />, label: "Make a complaint", href: "#" },
+  { icon: <Trash2 size={20} />, label: "Delete products & fabrics", href: "/delete" },
+  { icon: <PenLine size={20} />, label: "Make a complaint", href: "/complaint" },
 ];
 
 interface SidebarProps {
@@ -31,7 +31,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
   return (
     <aside className="h-full w-full md:w-80 bg-white text-black px-6 py-10 relative">
-      {onClose && (
         <button
           onClick={onClose}
           className="absolute top-4 right-4 md:hidden"
@@ -39,7 +38,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
         >
           <X className="w-5 h-5" />
         </button>
-      )}
 
       <nav role="navigation" aria-label="Sidebar menu" className="flex flex-col space-y-3">
         {sidebarLinks.map((link, index) => (
