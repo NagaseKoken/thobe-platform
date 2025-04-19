@@ -1,90 +1,75 @@
 "use client";
 
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Facebook, Instagram, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-const Footer = () => (
-  <footer className="bg-gray-900 text-gray-300 py-12">
-    <div className="container mx-auto px-6 grid grid-cols-1 justify-items-center text-center md:grid-cols-3 gap-8">
-      <div className="space-y-4">
-        <h2 className="text-2xl font-serif">THOBE</h2>
-        <div className="flex space-x-4 text-xl">
-          <a href="#" aria-label="Facebook" className="hover:text-white">
-            <FaFacebookF />
-          </a>
-          <a href="#" aria-label="Instagram" className="hover:text-white">
-            <FaInstagram />
-          </a>
-          <a href="#" aria-label="X (Twitter)" className="hover:text-white">
-            <FaTwitter />
-          </a>
-        </div>
-      </div>
-
-      <div className="flex justify-between items-center">
+export default function Footer() {
+  return (
+    <footer className="bg-white text-black px-6 py-12 border-t border-gray-200">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        
+        {/* Brand & Social */}
         <div>
-          <h3 className="font-semibold mb-3">Company</h3>
-          <ul className="space-y-2 text-gray-400">
-            <li>
-              <Link href="/about" className="hover:text-gray-200">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="/careers" className="hover:text-gray-200">
-                Careers
-              </Link>
-            </li>
-            <li>
-              <Link href="/press" className="hover:text-gray-200">
-                Press
-              </Link>
-            </li>
-          </ul>
+          <h2 className="text-lg font-bold mb-4">THOBEMARKET</h2>
+          <div className="flex space-x-4">
+            <Link href="#" aria-label="Facebook">
+              <Facebook className="w-5 h-5 hover:text-gray-600 transition-colors" />
+            </Link>
+            <Link href="#" aria-label="Instagram">
+              <Instagram className="w-5 h-5 hover:text-gray-600 transition-colors" />
+            </Link>
+            <Link href="#" aria-label="Twitter">
+              <X className="w-5 h-5 hover:text-gray-600 transition-colors" />
+            </Link>
+          </div>
         </div>
-        <div>
-          <h3 className="font-semibold mb-3">Support</h3>
-          <ul className="space-y-2 text-gray-400">
-            <li>
-              <Link href="/contact" className="hover:text-gray-200">
-                Contact Us
-              </Link>
-            </li>
-            <li>
-              <Link href="/faqs" className="hover:text-gray-200">
-                FAQs
-              </Link>
-            </li>
-            <li>
-              <Link href="/returns" className="hover:text-gray-200">
-                Return Policy
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
 
-      <div className="space-y-4">
-        <h3 className="font-semibold">Subscribe to our newsletter</h3>
-        <p className="text-gray-400">
-          Stay updated with the latest store updates.
-        </p>
-        <form className="flex max-w-md">
-          <input
-            type="email"
-            placeholder="Email address"
-            className="flex-1 bg-gray-800 placeholder-gray-500 text-gray-100 px-4 py-2 rounded-l-md focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="bg-transparent border border-gray-500 text-gray-200 px-4 py-2 rounded-r-md hover:bg-gray-700 transition"
+        {/* Company */}
+        <nav aria-labelledby="footer-company" className="space-y-2">
+          <h4 id="footer-company" className="font-semibold">Company</h4>
+          <Link href="/about-us" className="block hover:underline">About Us</Link>
+          <Link href="/careers" className="block hover:underline">Careers</Link>
+          <Link href="/press" className="block hover:underline">Press</Link>
+          <Link href="/blog" className="block hover:underline">Blog</Link>
+        </nav>
+
+        {/* Support */}
+        <nav aria-labelledby="footer-support" className="space-y-2">
+          <h4 id="footer-support" className="font-semibold">Support</h4>
+          <Link href="/contact" className="block hover:underline">Contact Us</Link>
+          <Link href="/faqs" className="block hover:underline">FAQs</Link>
+          <Link href="/shipping" className="block hover:underline">Shipping & Returns</Link>
+          <Link href="/privacy" className="block hover:underline">Privacy Policy</Link>
+        </nav>
+
+        {/* Newsletter */}
+        <div>
+          <h4 className="font-semibold mb-2">Subscribe to our newsletter</h4>
+          <p className="text-sm text-gray-500 mb-3">
+            Stay updated with the latest store updates.
+          </p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              // 🔒 Backend handling later
+            }}
+            className="flex flex-col sm:flex-row gap-3"
           >
-            Subscribe
-          </button>
-        </form>
+            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+            <Input
+              id="newsletter-email"
+              type="email"
+              name="email"
+              placeholder="Email address"
+              className="flex-1"
+              required
+            />
+            <Button type="submit">Subscribe</Button>
+          </form>
+        </div>
       </div>
-    </div>
-  </footer>
-);
-
-export default Footer;
+    </footer>
+  );
+}

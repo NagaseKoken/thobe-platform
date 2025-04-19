@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { FileText, PlusCircle, Trash2, PenLine, X } from "lucide-react";
 
 const sidebarLinks = [
-  { icon: <FileText size={20} />, label: "View Orders", href: "/orders" },
-  { icon: <PlusCircle size={20} />, label: "Add products & fabrics", href: "/products" },
-  { icon: <Trash2 size={20} />, label: "Delete products & fabrics", href: "/delete" },
-  { icon: <PenLine size={20} />, label: "Make a complaint", href: "/complaint" },
+  { icon: <FileText size={20} />, label: "View Orders", href: "orders" },
+  { icon: <PlusCircle size={20} />, label: "Add products & fabrics", href: "products" },
+  { icon: <Trash2 size={20} />, label: "Delete products & fabrics", href: "delete" },
+  { icon: <PenLine size={20} />, label: "Make a complaint", href: "complaint" },
 ];
 
 interface SidebarProps {

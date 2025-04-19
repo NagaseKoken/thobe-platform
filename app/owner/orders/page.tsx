@@ -7,7 +7,7 @@ import Navbar from "@/components/reusable/navbar";
 
 import PageLayout from "@/components/reusable/PageLayout";
 import HeaderSection from "@/components/reusable/HeaderSection";
-import OrderFooter from "@/components/reusable/OrderFooter";
+import OrderFooter from "@/components/reusable/Footer";
 import TabsOrders from "@/components/orders/TabsOrders";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
