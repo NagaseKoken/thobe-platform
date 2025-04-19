@@ -70,7 +70,7 @@ export const RegisterForm = () => {
                             <Link href="/admin/dashboard">Go to admin page</Link>
                         </Button>
                         <Button  className='w-full' disabled={false} >
-                            <Link href="/wroker">Go to worker page</Link>
+                            <Link href="/worker">Go to worker page</Link>
                         </Button>
                     </div>
                    <div className="relative flex items-center py-4">
