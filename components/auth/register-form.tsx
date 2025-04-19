@@ -55,17 +55,24 @@ export const RegisterForm = () => {
         
                 <form className='space-y-6' >
                    <div className='space-y-4'>
-                            <label>Name</label>
-                                <Input  placeholder='John Deo' type='name' disabled={false}/>
-                                <label>Email</label>
-                                    <Input  placeholder='john.deo@example.com' type='email' disabled={false}/>
-                                <label>Password</label>
-                                    <Input placeholder='******' type='password' disabled={false}/>
+                        <label>Name</label>
+                        <Input  placeholder='John Deo' type='name' disabled={false}/>
+                        <label>Email</label>
+                        <Input  placeholder='john.deo@example.com' type='email' disabled={false}/>
+                        <label>Password</label>
+                        <Input placeholder='******' type='password' disabled={false}/>
                    </div>
-
-                   <Button  className='w-full' disabled={false} >
-                        <Link href="/home">Create an account</Link>
-                   </Button>
+                    <div className='flex flex-col gap-2'>
+                        <Button  className='w-full' disabled={false} >
+                            <Link href="/home">Create an account</Link>
+                        </Button>
+                        <Button  className='w-full' disabled={false} >
+                            <Link href="/admin/dashboard">Go to admin page</Link>
+                        </Button>
+                        <Button  className='w-full' disabled={false} >
+                            <Link href="/wroker">Go to worker page</Link>
+                        </Button>
+                    </div>
                    <div className="relative flex items-center py-4">
                         <div className="flex-grow border-t border-gray-300"></div>
                             <span className="flex-shrink mx-4 text-gray-500">or continue with</span>

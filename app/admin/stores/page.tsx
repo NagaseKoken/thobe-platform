@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/reusable/navbar";
+import {Navbar} from "@/components/reusable/navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import Footer from "@/components/reusable/Footer";
 import { StoreFilters } from "@/components/admin/StoreFilters";

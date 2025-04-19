@@ -15,7 +15,7 @@ import {
   UserIcon,
   CalendarIcon,
 } from '@heroicons/react/24/outline';
-import Navbar from '@/components/reusable/navbar';
+import {Navbar} from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
 
 const initialProfile = {
@@ -36,26 +36,15 @@ const Sidebar: React.FC = () => (
       <h2 className="text-lg font-semibold text-gray-800 mb-6">Dashboard</h2>
       <nav className="space-y-4">
 
-<Link
-  href="/worker"
-  className="flex items-center px-3 py-2 rounded-md bg-orange-50 text-orange-600 font-medium"
+        <Link href="/worker" className="flex items-center px-3 py-2 rounded-md bg-orange-50 text-orange-600 font-medium">
+          <UserIcon className="w-5 h-5 mr-3" />
+          Profile
+        </Link>
 
->
-  <UserIcon className="w-5 h-5 mr-3" />
-  Profile
-</Link>
-
-        <Link
-          href="/worker/orders"
-          className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50"
-        >
+        <Link href="/worker/orders" className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50">
           <ShoppingBagIcon className="w-5 h-5 mr-3" /> Orders
         </Link>
-        <Link
-          href="/worker/Fabrics&Products"
-          className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50"
-
-        >
+        <Link href="/worker/fabrics-products" className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50">
           <ClipboardIcon className="w-5 h-5 mr-3" /> Fabrics & Products
         </Link>
       </nav>
@@ -119,15 +108,9 @@ const WorkerProfilePage: React.FC = () => {
             <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
             <button
               onClick={handleEditToggle}
-              className={`inline-flex items-center px-4 py-2 rounded-md font-medium ${
-                isEditing 
-                  ? 'bg-green-600 text-white hover:bg-green-700' 
-                  : 'bg-orange-500 text-white hover:bg-orange-600'
-              }`}
+              className={`inline-flex items-center px-4 py-2 rounded-md font-medium ${isEditing ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-orange-500 text-white hover:bg-orange-600'}`}
             >
-              {isEditing ? (
-                <>Save Changes</>
-              ) : (
+              {isEditing ? ( <>Save Changes</> ) : (
                 <>
                   <PencilSquareIcon className="w-4 h-4 mr-2" />
                   Edit Profile

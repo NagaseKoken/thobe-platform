@@ -1,5 +1,6 @@
 "use client"
 import { CardCover } from "@/components/reusable/card-cover";
+import Footer from "@/components/reusable/Footer";
 import { MeasurementCard } from "@/components/reusable/measurement";
 import { Navbar } from "@/components/reusable/navbar";
 import { StoreCard } from "@/components/reusable/store-card";
@@ -26,6 +27,7 @@ const Home = () => {
             <MeasurementCard title="Meausre Your hand"  discription="place the tape around your hand make sure to keep it tight" imageSource="/arm.jpg"/>
             <MeasurementCard title="Meausre Your hand" discription="place the tape around your hand make sure to keep it tight" imageSource="/arm.jpg"/>
         </div>
+        <Footer />
     </div> 
     );
 }
