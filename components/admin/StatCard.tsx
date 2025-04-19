@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 interface StatCardProps {
   title: string;
   value: number | string;
-  variant?: "default" | "secondary" | "destructive" | "outline";
+  variant?: "default" | "secondary" | "destructive" | "outline" | "success"
 }
 
 export function StatCard({ title, value, variant = "default" }: StatCardProps) {
