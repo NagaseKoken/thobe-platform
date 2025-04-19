@@ -1,172 +1,196 @@
-# Thobe Platform
+# 🌟 **Thobe Platform** 🌟
 
-An e-commerce platform specializing in traditional Saudi thobes, connecting customers with skilled tailors and stores.
+Welcome to **Thobe Platform**, an innovative e-commerce marketplace that connects customers with skilled tailors and stores across Saudi Arabia. Experience the art of traditional Saudi thobes in a modern, digital way.
 
-## Team Members
+---
 
-| Name | GitHub |
-|------|--------|
-| Ali AlBugeaey | @aliob04 |
-| Mohammed Al Naser | @NagaseKoken |
-| Moammal Almahfoudh | @MuammalZH |
-| Reda Alali | @RedaAlali |
-| Husian Al Muallim | N/A |
-| Abdulrhman Al faleh | N/A |
+## 👥 **Team Members**
 
-## Project Overview
+| Name                  | GitHub         |
+|-----------------------|----------------|
+| **Ali AlBugeaey**     | [@aliob04](https://github.com/aliob04) |
+| **Mohammed Al Naser** | [@NagaseKoken](https://github.com/NagaseKoken) |
+| **Moammal Almahfoudh**| [@MuammalZH](https://github.com/MuammalZH) |
+| **Reda Alali**        | [@RedaAlali](https://github.com/RedaAlali) |
+| **Husian Al Muallim** | N/A            |
+| **Abdulrhman Al faleh** | N/A          |
 
-Thobe Platform revolutionizes the traditional thobe purchasing experience by providing a digital marketplace that connects customers with skilled tailors and stores across Saudi Arabia.
+---
 
-### Key Features
-- Custom thobe ordering with precise measurements
-- Real-time tailor-customer communication
-- Comprehensive store management system
-- Advanced order tracking
-- Digital measurement management
+## 🌍 **Project Overview**
 
-## Tech Stack
+The **Thobe Platform** revolutionizes the traditional thobe purchasing experience by offering:
 
-- **Frontend**: 
-  - Next.js 14.x
-  - React 18.x
-  - TailwindCSS 3.x
-- **Backend**:
-  - Node.js 18.x
-  - Express 4.x
-  - MongoDB 6.x
-- **Authentication**: 
-  - NextAuth.js
-- **UI Components**: 
-  - Radix UI
-  - Shadcn/ui
-- **State Management**:
-  - React Query
-  - Zustand
-- **Development Tools**:
-  - TypeScript 5.x
-  - ESLint
-  - Prettier
+- 🧵 **Custom thobe ordering** with precise measurements
+- 💬 **Real-time communication** between tailors and customers
+- 🏬 **Comprehensive store management** for vendors
+- 🚚 **Advanced order tracking** for seamless delivery
+- 📏 **Digital measurement management** for accuracy
 
-## Prerequisites
+---
 
-- Node.js 18.x or higher
-- npm 9.x or higher
-- MongoDB 6.x
-- Git
+## 🛠️ **Tech Stack**
 
-## Getting Started
+### **Frontend**
+- ⚡ **Next.js** 14.x
+- ⚛️ **React** 18.x
+- 🎨 **TailwindCSS** 3.x
 
-1. Clone the repository:
-```bash
-git clone https://github.com/your-username/thobe-platform.git
-cd thobe-platform
-```
+### **Backend**
+- 🟢 **Node.js** 18.x
+- 🚀 **Express** 4.x
 
-2. Set up environment variables:
-```bash
-cp .env.example .env.local
-```
-Edit `.env.local` with your configuration:
-```
-MONGODB_URI=your_mongodb_uri
-NEXTAUTH_SECRET=your_secret
-NEXT_PUBLIC_API_URL=http://localhost:3000
-```
 
-3. Install dependencies:
-```bash
-npm install
-```
+### **Additional Tools**
+- 🖌️ **UI Components**: Radix UI, Shadcn/ui
+- 🔄 **State Management**: React Query, Zustand
+- 🛠️ **Development Tools**: TypeScript 5.x, ESLint, Prettier
 
-4. Run database migrations:
-```bash
-npm run migrate
-```
+---
 
-5. Start the development server:
-```bash
-npm run dev
-```
+## ✅ **Prerequisites**
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
+Before you begin, ensure you have the following installed:
 
-## Project Structure
+- **Node.js** 18.x or higher
+- **npm** 9.x or higher
+- **Git**
+
+---
+
+## 🚀 **Getting Started**
+
+Follow these steps to set up the project locally:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/thobe-platform.git
+   cd thobe-platform
+   ```
+
+2. **Set up environment variables**:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Edit `.env.local` with your configuration:
+   ```
+   MONGODB_URI=your_mongodb_uri
+   NEXTAUTH_SECRET=your_secret
+   NEXT_PUBLIC_API_URL=http://localhost:3000
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+4. **Run database migrations**:
+   ```bash
+   npm run migrate
+   ```
+
+5. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+6. **Open the app**:
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 📂 **Project Structure**
+
+Here’s a detailed breakdown of the project structure:
 
 ```
 thobe-platform/
 ├── app/                    # Next.js app directory
-│   ├── admin/             # Admin dashboard
-│   ├── worker/            # Worker/Tailor dashboard
-│   ├── home/              # Customer-facing pages
-│   └── cart/              # Shopping cart
-├── components/            # Reusable components
-├── lib/                  # Utility functions
-├── hooks/               # Custom React hooks
-├── types/               # TypeScript definitions
-├── prisma/              # Database schema
-└── public/              # Static assets
+│   ├── admin/              # Admin dashboard pages
+│   │   ├── dashboard/      # Admin dashboard overview
+│   │   ├── orders/         # Manage orders
+│   │   ├── stores/         # Manage stores
+│   │   └── requests/       # Handle admin requests
+│   ├── worker/             # Worker/Tailor dashboard
+│   │   ├── orders/         # Manage worker orders
+│   │   ├── fabrics-products/ # Manage fabrics and products
+│   │   └── profile/        # Worker profile management
+│   ├── home/               # Customer-facing pages
+│   │   ├── stores/         # Store listings
+│   │   └── [storeId]/      # Individual store details
+│   └── cart/               # Shopping cart functionality
+├── components/             # Reusable UI components
+│   ├── admin/              # Admin-specific components
+│   ├── reusable/           # Shared components (e.g., Navbar, Footer)
+│   ├── ui/                 # UI primitives (e.g., buttons, modals)
+├── lib/                    # Utility functions and helpers
+│   └── generated/          # Auto-generated files (e.g., Prisma client)
+├── hooks/                  # Custom React hooks
+├── prisma/                 # Prisma schema and database configuration
+│   └── schema.prisma       # Database schema definition
+├── public/                 # Static assets (e.g., images, fonts)
+├── styles/                 # Global styles and Tailwind configuration
+│   └── globals.css         # Tailwind CSS setup
+├── types/                  # TypeScript type definitions
+├── .env.example            # Example environment variables
+├── package.json            # Project dependencies and scripts
+└── README.md               # Project documentation
 ```
 
-## API Documentation
+---
+
+## 📖 **API Documentation**
 
 API documentation is available at `/api/docs` when running the development server. It includes:
-- Authentication endpoints
-- Order management
-- User management
-- Product catalog
-- Measurement system
 
-## Testing
+- 🔑 Authentication endpoints
+- 📦 Order management
+- 👤 User management
+- 🛍️ Product catalog
+- 📏 Measurement system
 
-Run the test suite:
-```bash
-npm run test              # Run all tests
-npm run test:unit        # Run unit tests
-npm run test:e2e         # Run end-to-end tests
-```
+---
 
-## Contributing
+## 🧪 **Testing**
 
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/AmazingFeature`
-3. Commit your changes: `git commit -m 'Add some AmazingFeature'`
-4. Push to the branch: `git push origin feature/AmazingFeature`
-5. Open a pull request
+Run the test suite to ensure everything works as expected:
 
-### Code Style Guide
-- Use TypeScript for all new code
-- Follow the existing code formatting rules
-- Write meaningful commit messages
-- Add tests for new features
+- **Run all tests**:
+  ```bash
+  npm run test
+  ```
 
-## Deployment
+- **Run unit tests**:
+  ```bash
+  npm run test:unit
+  ```
 
-Deployment instructions for different environments:
+- **Run end-to-end tests**:
+  ```bash
+  npm run test:e2e
+  ```
 
-### Production
-```bash
-npm run build
-npm run start
-```
+---
 
-### Docker
-```bash
-docker-compose up -d
-```
+## 🤝 **Contributing**
 
-## License
+We welcome contributions! Follow these steps to contribute:
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+1. **Fork the repository**
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. **Commit your changes**:
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. **Push to the branch**:
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Open a pull request**
 
-## Support
+---
 
-For support, please:
-1. Check the [FAQ](docs/FAQ.md)
-2. Open an issue
-3. Contact the development team
-
-## Acknowledgments
-
-- KFUPM Software Engineering Department
-- Our mentors and advisors
-- All contributors to this project
+🎉 **Thank you for being part of the Thobe Platform journey!**

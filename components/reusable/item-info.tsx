@@ -22,24 +22,23 @@ export const ItemInfo = ({name,type,state,changeState,price}:itemInfoProps) => {
                 <DialogDescription className="text-md font-medium grid grid-cols-2  gap-3">
                     
                     
-                        <div>
-                            <Label className="text-md font-medium">arm width (cm)</Label>
-                            <Input type="number" placeholder="xx-cm" className="w-1/2"/>
-                        </div>
-                        <div>
-                            <Label className="text-md font-medium">chest width (cm)</Label>
-                            <Input type="number" placeholder="xx-cm" className="w-1/2"/>
-                        </div>
-                        <div>
-                            <Label className="text-md font-medium">sholder width (cm)</Label>
-                            <Input type="number" placeholder="xx-cm" className="w-1/2"/>
-                        </div>
-                        
-                        <div>
-                            <Label className="text-md font-medium">sholder width (cm)</Label>
-                            <Input type="number" placeholder="xx-cm" className="w-1/2"/>
-                        </div>
-                  
+                            <div>
+                                <Label className="text-md font-medium">arm width (cm)</Label>
+                                <Input type="number" placeholder="xx-cm" className="w-1/2"/>
+                            </div>
+                            <div>
+                                <Label className="text-md font-medium">chest width (cm)</Label>
+                                <Input type="number" placeholder="xx-cm" className="w-1/2"/>
+                            </div>
+                            <div>
+                                <Label className="text-md font-medium">sholder width (cm)</Label>
+                                <Input type="number" placeholder="xx-cm" className="w-1/2"/>
+                            </div>
+                            
+                            <div>
+                                <Label className="text-md font-medium">sholder width (cm)</Label>
+                                <Input type="number" placeholder="xx-cm" className="w-1/2"/>
+                            </div>
                         <Button className="col-span-2"><Link href="/cart" className="w-full h-full">Add to cart</Link></Button>
                 </DialogDescription>
             </DialogContent>
