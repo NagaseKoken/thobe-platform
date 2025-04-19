@@ -18,7 +18,7 @@ export default function HeaderSection({
   const HeadingTag = headingLevel;
 
   return (
-    <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-gray-200 pb-4">
+    <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200">
       <div className="flex items-center gap-4 w-full">
         {/* Left icon/button (like hamburger) */}
         {leftSlot && <div className="sm:hidden">{leftSlot}</div>}

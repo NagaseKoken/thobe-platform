@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
-const Footer: React.FC = () => (
+const Footer = () => (
   <footer className="bg-gray-900 text-gray-300 py-12">
-    <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="container mx-auto px-6 grid grid-cols-1 justify-items-center text-center md:grid-cols-3 gap-8">
       <div className="space-y-4">
         <h2 className="text-2xl font-serif">THOBE</h2>
         <div className="flex space-x-4 text-xl">
@@ -22,7 +21,7 @@ const Footer: React.FC = () => (
         </div>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div>
           <h3 className="font-semibold mb-3">Company</h3>
           <ul className="space-y-2 text-gray-400">

@@ -20,8 +20,6 @@ export const ItemInfo = ({name,type,state,changeState,price}:itemInfoProps) => {
                     <DialogTitle className="text-xl font-semibold">{name}<br/>{type} - {price}</DialogTitle>
                 </DialogHeader>
                 <DialogDescription className="text-md font-medium grid grid-cols-2  gap-3">
-                    
-                    
                             <div>
                                 <Label className="text-md font-medium">arm width (cm)</Label>
                                 <Input type="number" placeholder="xx-cm" className="w-1/2"/>
