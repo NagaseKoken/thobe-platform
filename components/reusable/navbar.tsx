@@ -20,7 +20,7 @@ const Navbar = ({admin, owner}: NavBarProps) => {
                 <div>Stores</div>
                 {admin && <div>Dashboard</div>}
                 {owner && <div>My Store</div>}
-                <div className="xl:font-semibold font-xl xl:text-2xl ">Orders</div>
+                <div className=" ">Orders</div>
                 <div> 
                     <DropdownMenu>
                     <DropdownMenuTrigger className="text-center cursor-pointer"><div >Contact Us <ChevronDown className="w-4 h-4 inline"/></div></DropdownMenuTrigger> 

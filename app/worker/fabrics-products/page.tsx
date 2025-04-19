@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { ShoppingBagIcon, ClipboardIcon, UserIcon } from '@heroicons/react/24/outline';
-import { Navbar } from '@/components/reusable/navbar';
+import  Navbar  from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
 
 
@@ -43,9 +43,6 @@ const Sidebar: React.FC = () => (
     <div className="p-6">
       <h2 className="text-lg font-semibold text-gray-800 mb-6">Dashboard</h2>
       <nav className="space-y-4">
-
-assName="w-5 h-5 mr-3" />
-
 <Link href="/worker" className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50">
   <UserIcon className="w-5 h-5 mr-3" />
   Profile

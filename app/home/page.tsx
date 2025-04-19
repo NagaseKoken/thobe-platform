@@ -2,7 +2,7 @@
 import { CardCover } from "@/components/reusable/card-cover";
 import Footer from "@/components/reusable/Footer";
 import { MeasurementCard } from "@/components/reusable/measurement";
-import { Navbar } from "@/components/reusable/navbar";
+import Navbar  from "@/components/reusable/navbar";
 import { StoreCard } from "@/components/reusable/store-card";
 
 import { Button } from "@/components/ui/button";

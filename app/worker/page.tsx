@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBagIcon, ClipboardIcon } from '@heroicons/react/24/outline';
+import { ShoppingBagIcon, ClipboardIcon, PencilSquareIcon, UserIcon } from '@heroicons/react/24/outline';
 import Navbar from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
 
@@ -9,6 +9,18 @@ type Fabric = {
   id: number;
   name: string;
   available: boolean;
+};
+
+const initialProfile = {
+  name: 'Ahmed Al-Farsi',
+  email: 'ahmed.alfarsi@example.com',
+  phone: '+966 50 123 4567',
+  gender: 'Male',
+  age: 32,
+  role: 'Senior Tailor',
+  storeName: 'Elegant Stitches',
+  workingHours: 'Sunday-Thursday: 9AM-6PM, Friday: 2PM-8PM',
+  profileImage: null 
 };
 
 const fabrics: Fabric[] = [
@@ -42,6 +54,18 @@ const Sidebar: React.FC = () => (
 
 const ProductsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'Fabrics' | 'Products'>('Fabrics');
+  const [profile, setProfile] = useState(initialProfile);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState(initialProfile);
+  const handleEditToggle = () => {
+    if (isEditing) {
+      setProfile(editedProfile);
+      setIsEditing(false);
+    } else {
+      setEditedProfile(profile);
+      setIsEditing(true);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-between min-h-screen bg-gray-50 text-gray-900">
