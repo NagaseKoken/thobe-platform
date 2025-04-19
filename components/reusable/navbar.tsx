@@ -45,10 +45,10 @@ const Navbar = ({admin, owner}: NavBarProps) => {
                         </DropdownMenuTrigger> 
                     <DropdownMenuContent align="start">
 
-                        <Link href='/auth/login'>
+                        <Link href='/'>
                             <DropdownMenuItem>
                                 <LogOut className="h-4 w-4 mr-2" />
-                                Login
+                                Logout
                                 {/*  this should be login but for test purposes its login  */}
                             </DropdownMenuItem>
                         </Link>

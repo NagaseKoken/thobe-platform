@@ -67,10 +67,16 @@ export const RegisterForm = () => {
                             <Link href="/home">Create an account</Link>
                         </Button>
                         <Button  className='w-full' disabled={false} >
+                            <Link href="/home">Go to customer page</Link>
+                        </Button>
+                        <Button  className='w-full' disabled={false} >
                             <Link href="/admin/dashboard">Go to admin page</Link>
                         </Button>
                         <Button  className='w-full' disabled={false} >
                             <Link href="/worker">Go to worker page</Link>
+                        </Button>
+                        <Button  className='w-full' disabled={false} >
+                            <Link href="/orders">Go to owner page</Link>
                         </Button>
                     </div>
                    <div className="relative flex items-center py-4">
