@@ -12,7 +12,7 @@ Welcome to **Thobe Platform**, an innovative e-commerce marketplace that connect
 | **Mohammed Al Naser** | [@NagaseKoken](https://github.com/NagaseKoken) |
 | **Moammal Almahfoudh**| [@MuammalZH](https://github.com/MuammalZH) |
 | **Reda Alali**        | [@RedaAlali](https://github.com/RedaAlali) |
-| **Husian Al Muallim** | N/A            |
+| **Husian Al Muallim** | [@HusainAlMuallim](https://github.com/HusainAlMuallim) |
 | **Abdulrhman Al faleh** | N/A          |
 
 ---
