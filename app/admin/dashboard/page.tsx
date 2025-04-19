@@ -55,7 +55,6 @@ export default function DashboardPage() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuItem>Log out</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
