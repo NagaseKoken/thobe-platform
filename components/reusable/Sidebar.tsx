@@ -31,6 +31,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
   return (
     <aside className="h-full w-full md:w-80 bg-white text-black px-6 py-10 relative">
+
         <button
           onClick={onClose}
           className="absolute top-4 right-4 md:hidden"
@@ -38,6 +39,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
         >
           <X className="w-5 h-5" />
         </button>
+
 
       <nav role="navigation" aria-label="Sidebar menu" className="flex flex-col space-y-3">
         {sidebarLinks.map((link, index) => (

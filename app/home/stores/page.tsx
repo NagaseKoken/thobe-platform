@@ -1,4 +1,5 @@
-import { Navbar } from "@/components/reusable/Navbar";
+import Navbar from "@/components/reusable/navbar";
+
 import { StoreCard } from "@/components/reusable/store-card";
 import Footer from "@/components/reusable/Footer";
 

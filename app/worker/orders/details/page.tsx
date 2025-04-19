@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -11,7 +10,8 @@ import {
   CheckCircleIcon,
   UserIcon
 } from "@heroicons/react/24/outline";
-import {Navbar} from "@/components/reusable/Navbar";
+import Navbar from "@/components/reusable/navbar";
+
 import Footer from "@/components/reusable/Footer";
 
 import { sampleOrders, OrderStatus, Order } from "../page";
@@ -341,16 +341,12 @@ const OrderDetailPage: React.FC = () => {
               </div>
             </div>
           </section>
->>>>>>> 61097f4 (the worker design)
         </main>
       </div>
       <Footer />
     </div>
   );
-<<<<<<< HEAD
 }
-=======
 };
 
 export default OrderDetailPage;
->>>>>>> 61097f4 (the worker design)

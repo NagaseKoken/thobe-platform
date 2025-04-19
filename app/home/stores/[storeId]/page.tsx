@@ -1,6 +1,7 @@
 
 import { ItemsCard } from "@/components/reusable/items";
-import { Navbar } from "@/components/reusable/Navbar";
+import Navbar from "@/components/reusable/navbar";
+
 import {stores} from "@/components/reusable/store-card"
 import Image from 'next/image';
 import Footer from "@/components/reusable/Footer";

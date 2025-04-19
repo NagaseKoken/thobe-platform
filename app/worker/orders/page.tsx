@@ -6,6 +6,8 @@ import {
   ClipboardIcon,
   ChevronDownIcon,
   EllipsisVerticalIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
 import Navbar from '@/components/reusable/navbar';
@@ -48,11 +50,15 @@ const Sidebar: React.FC = () => (
   <aside className="w-64 bg-white border-r border-gray-200 min-h-screen">
     <div className="p-6">
       <nav className="space-y-4">
-        <Link href="/orders" className="flex items-center text-gray-700 hover:text-gray-900">
-          <ShoppingBagIcon className="w-5 h-5 mr-2" /> Orders
+      <Link href="/worker" className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50">
+        <UserIcon className="w-5 h-5 mr-3" />
+          Profile
         </Link>
-        <Link href="/products" className="flex items-center text-gray-700 hover:text-gray-900">
-          <ClipboardIcon className="w-5 h-5 mr-2" /> My Products
+        <Link href="/worker/orders" className="flex items-center px-3 py-2 rounded-md bg-orange-50 text-orange-600 font-medium">
+          <ShoppingBagIcon className="w-5 h-5 mr-3" /> Orders
+        </Link>
+        <Link href="/worker/fabrics-products" className="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50">
+          <ClipboardIcon className="w-5 h-5 mr-3" /> Fabrics & Products
         </Link>
       </nav>
     </div>
