@@ -6,10 +6,166 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
 }
 
+// prisma/schema.prisma
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+
+}
+enum UserRole{
+  ADMIN
+  USER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  password      String?
+  role          UserRole @default(USER)
+  image         String?
+  accounts      Account[]
+  isTwoFactorEnabled Boolean @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+  stores Store[] 
+  orders Order[]
+  request Request[]
+  @@map("users")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model VerficationToken {
+  id String @id @default(cuid())
+  email String 
+  token String @unique
+  expires DateTime 
+
+  @@unique([email,token])
+}
+//security wise it is good to sperate tokens
+model PasswordResetToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique 
+  expires DateTime
+  @@unique([email,token])
+}
+
+model TwoFactorToken {
+  id String @id @default(cuid())
+  email String
+  //here the token is the code
+  token String @unique
+  expires DateTime
+  @@unique([email,token])
+}
+
+model TwoFactorConfirmation{
+  id String @id @default(cuid())
+
+  userId String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade) //onDelete: Cascade means if the User was deleted the token will be deleted
+
+  @@unique([userId])
+}
+
+model Store{
+  id String @id @default(cuid())
+  name String
+  location String
+  status Boolean
+  rating Int
+  created_at DateTime
+  ownerId String
+  
+  request Request[]
+  products Product[]
+  order Order[]
+  user User @relation(fields: [ownerId],references: [id], onDelete: Cascade)
+
+  @@map("stores")
+  @@unique([ownerId])
+}
+model Product{
+  id String @id @default(cuid())
+  storeId String
+  name String
+  description String
+  price Decimal
+  type String
+  material String?
+  image String
+  available Boolean
+  created_at DateTime
+  
+  orderItems OrderedItems[]
+
+  store Store @relation(fields: [storeId],references: [id], onDelete: Cascade)
+
+  @@unique([id,storeId])
+}
+
+model Order{
+  id String @id @default(cuid())
+  customerId String
+  storeId String
+  status String
+  total Decimal
+  created_at DateTime
+
+  orderItems OrderedItems[]
+
+
+  store Store @relation(fields: [storeId],references: [id],onDelete: Cascade)
+  user User @relation(fields: [customerId],references: [id],onDelete: Cascade)
+
+  @@unique([id,customerId])
+}
+
+model OrderedItems{
+  id String @id @default(cuid())
+  orderId String
+  productId String
+  quantity Int
+  price Decimal
+
+  product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
+  order Order @relation(fields: [orderId],references: [id],onDelete: Cascade)
+
+  @@unique([id])
+}
+
+model Request{
+  id String @id @default(cuid())
+  storeId String
+  ownerId String
+  type String
+  status String
+  created_at DateTime
+
+  store Store @relation(fields: [storeId],references: [id],onDelete: Cascade)
+  user User @relation(fields: [ownerId],references: [id],onDelete: Cascade)
+  @@unique([id])
 }
