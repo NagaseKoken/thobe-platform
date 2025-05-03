@@ -1,21 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Store as StoreIcon, MapPin, Star, Package } from "lucide-react";
-
-export interface Store {
-  id: string;
-  name: string;
-  location: string;
-  rating: number;
-  status: 'active' | 'pending';
-  productsCount: number;
-}
+import type { Product, Store } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 interface StoreCardProps {
   store: Store;
 }
 
 export function StoreCard({ store }: StoreCardProps) {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      const res = await fetch(`/api/stores/${store.id}/products`);
+      if (!res.ok) throw new Error('Failed to fetch products');
+      setProducts(await res.json());
+    }
+    loadProducts();
+  }, [store.id]);
+
+  const { id, name, location, rating, status, image } = store;
+
+  const handleRemove = async () => {
+    if (!confirm("Remove this store?")) return;
+    const res = await fetch(`/api/stores/${id}`, { method: "DELETE" });
+    if (!res.ok) console.error("Failed to remove store:", await res.text());
+  };
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-sm border">
       <div className="flex items-start justify-between">
@@ -41,9 +54,9 @@ export function StoreCard({ store }: StoreCardProps) {
           <Star className="w-4 h-4 text-yellow-400" />
           <span className="text-sm">{store.rating}/5</span>
         </div>
-        <div className="flex items-center gap-2">
-          <Package className="w-4 h-4 text-gray-400" />
-          <span className="text-sm">{store.productsCount} products</span>
+        <div className="flex items-center">
+          <Package className="h-4 w-4 mr-1" />
+          {products.length} products
         </div>
       </div>
 

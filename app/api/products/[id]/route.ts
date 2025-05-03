@@ -1,6 +1,6 @@
-// /app/api/products/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+
 
 interface Params { id: string }
 
@@ -22,7 +22,6 @@ export async function PATCH(
 ) {
   const data = await req.json()
 
-  // If updating price, convert to Decimal
   if (data.price !== undefined) {
     data.price = new db.Decimal(data.price)
   }
