@@ -1,12 +1,16 @@
 import React from 'react';
 import { MenuItem } from './MenuItem';
-import { HomeIcon, WrenchIcon, BookOpenIcon, SearchIcon } from 'lucide-react';
-
+import { 
+  LayoutDashboard, 
+  Store, 
+  Users,
+} from 'lucide-react';
 const menuItems = [
-  { icon: HomeIcon, label: 'Dashboard', href: '/admin/dashboard' },
-  { icon: WrenchIcon, label: 'Orders', href: '/admin/orders' },
-  { icon: BookOpenIcon, label: 'Manage Stores', href: '/admin/stores' },
-  { icon: SearchIcon, label: 'Manage Requests', href: '/admin/requests' },
+  { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
+  //{ icon: WrenchIcon, label: 'Orders', href: '/admin/orders' },
+  { icon: Store, label: 'Manage Stores', href: '/admin/stores' },
+  //{ icon: SearchIcon, label: 'Manage Requests', href: '/admin/requests' },
+  { icon: Users, label: 'Manage Users', href: '/admin/account' },
 ];
 
 export function Sidebar() {
