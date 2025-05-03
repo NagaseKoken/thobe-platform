@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Store as StoreIcon, MapPin, Star, Package } from "lucide-react";
-import type { Store } from "@prisma/client";
+import type { Product, Store } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 interface StoreCardProps {
   store: Store;
@@ -15,8 +17,18 @@ interface StoreCardProps {
 
 
 export function StoreCard({ store }: StoreCardProps) {
-  const { id, name, location, rating, status, products, image } = store;
-  const productCount = Array.isArray(products) ? products.length : 0;
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      const res = await fetch(`/api/stores/${store.id}/products`);
+      if (!res.ok) throw new Error('Failed to fetch products');
+      setProducts(await res.json());
+    }
+    loadProducts();
+  }, [store.id]);
+
+  const { id, name, location, rating, status, image } = store;
 
   const handleRemove = async () => {
     if (!confirm("Remove this store?")) return;
@@ -67,7 +79,7 @@ export function StoreCard({ store }: StoreCardProps) {
         </div>
         <div className="flex items-center">
           <Package className="h-4 w-4 mr-1" />
-          {productCount} products
+          {products.length} products
         </div>
       </div>
 
