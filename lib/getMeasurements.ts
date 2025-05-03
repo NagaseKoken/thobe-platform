@@ -1,23 +1,13 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { db } from '@/lib/db';
+import { db } from '@/lib/db'; 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    const { userId } = req.query;
+export async function getMeasurements(userId: number) {
+  try {
+    const measurements = await db.measurement.findUnique({
+      where: { userId },
+    });
 
-    try {
-      const measurements = await db.measurement.findUnique({
-        where: { userId: Number(userId) },
-      });
-      if (measurements) {
-        res.status(200).json(measurements);
-      } else {
-        res.status(404).json({ error: 'Measurements not found' });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'Error fetching measurements' });
-    }
-  } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
+    return measurements; 
+  } catch (error) {
+    throw new Error('Error fetching measurements: ' + error); 
   }
 }
