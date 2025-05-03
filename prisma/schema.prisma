@@ -22,22 +22,30 @@ enum UserRole{
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  password      String?
-  role          UserRole @default(USER)
-  image         String?
-  accounts      Account[]
-  isTwoFactorEnabled Boolean @default(false)
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  emailVerified      DateTime? @map("email_verified")
+  password           String?
+  role               UserRole  @default(USER)
+  image              String?  
+
+  phone              String?   
+  gender             String?   
+  age                Int?      
+  roleDescription    String?  
+
+  accounts           Account[]
+  isTwoFactorEnabled Boolean   @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
-  stores Store[] 
-  orders Order[]
-  request Request[]
-  measurement Measurement[]
+  stores             Store[] 
+  orders             Order[]
+  request            Request[]
+  measurement        Measurement[]
+
   @@map("users")
 }
+
 
 model Account {
   id                 String  @id @default(cuid())
@@ -130,22 +138,27 @@ model Product{
   @@unique([id,storeId])
 }
 
-model Order{
-  id String @id @default(cuid())
-  customerId String
-  storeId String
-  status String
-  total Decimal
-  created_at DateTime
+model Order {
+  id          String    @id @default(cuid())
+  customerId  String
+  storeId     String
+  status      String
+  total       Decimal
+  created_at  DateTime
 
-  orderItems OrderedItems[]
+  email       String?
+  phone       String?
+  orderNumber String?
+  notes       String?
 
+  orderItems  OrderedItems[]
 
-  store Store @relation(fields: [storeId],references: [id],onDelete: Cascade)
-  user User @relation(fields: [customerId],references: [id],onDelete: Cascade)
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
   @@unique([id,customerId])
 }
+
 
 model OrderedItems{
   id String @id @default(cuid())
@@ -183,3 +196,15 @@ model Measurement {
    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
    @@unique([userId]) // Ensure each user has only one measurement
 }
+
+ model WorkerProfile {
+   id            String @id @default(cuid())
+   name          String
+   email         String @unique
+   phone         String
+   gender        String
+   age           Int
+   role          String
+   storeName     String
+   workingHours  String
+ }
