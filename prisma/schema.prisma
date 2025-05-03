@@ -17,6 +17,8 @@ datasource db {
 enum UserRole{
   ADMIN
   USER
+  WORKER
+  OWNER
 }
 
 model User {
@@ -33,6 +35,7 @@ model User {
   stores Store[] 
   orders Order[]
   request Request[]
+  measurement Measurement[]
   @@map("users")
 }
 
@@ -99,7 +102,7 @@ model Store{
   rating Int
   created_at DateTime
   ownerId String
-  img String
+  image String
   request Request[]
   products Product[]
   order Order[]
@@ -168,4 +171,15 @@ model Request{
   store Store @relation(fields: [storeId],references: [id],onDelete: Cascade)
   user User @relation(fields: [ownerId],references: [id],onDelete: Cascade)
   @@unique([id])
+}
+model Measurement {
+   id     String  @id @default(cuid())
+   chest  Decimal
+   waist  Decimal
+   hips   Decimal
+   height Decimal
+   userId String
+
+   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+   @@unique([userId]) // Ensure each user has only one measurement
 }
