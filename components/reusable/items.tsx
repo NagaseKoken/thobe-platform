@@ -65,6 +65,7 @@ export const ItemsCard = ({ storeId }: itemsCardProp) => {
                                         height={400}
                                         className="absolute rounded-lg h-full w-full -z-10 object-cover"
                                     />
+                                    
                                     <CardCover name={item.name} price={item.price} type={item.type} />
                                     <Button
                                         className="absolute bottom-0 right-0 m-3 rounded-xl bg-black shadow-xl text-md cursor-pointer p-3"
