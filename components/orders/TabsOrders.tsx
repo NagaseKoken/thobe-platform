@@ -1,61 +1,80 @@
 "use client";
 
-import OrderTable, { Order } from "@/components/orders/OrderTable";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs";
+import { useEffect, useState } from "react";
+import OrderTable, { Order } from "./OrderTable";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { PackageSearch, PackageCheck } from "lucide-react";
 
-const activeOrders: Order[] = [
-  { name: "Mohammed Al Naser", updated: "5 Min Ago", status: "New Order" },
-  { name: "Ali AlBugeeay", updated: "Yesterday", status: "Ready for Pickup" },
-  { name: "Moammal Almahfoudh", updated: "2 Days Ago", status: "In Production" },
-];
-
-const completedOrders: Order[] = [
-  { name: "Salim AlDossari", updated: "2 Weeks Ago", status: "Completed" },
-  { name: "Mona AlShehri", updated: "3 Weeks Ago", status: "Completed" },
-];
-
 export default function TabsOrders() {
+  const [activeOrders, setActiveOrders] = useState<Order[]>([]);
+  const [completedOrders, setCompletedOrders] = useState<Order[]>([]);
+
+  // Normalize any status string to match the expected type
+  function normalizeStatus(status: string): Order["status"] {
+    const s = status.toLowerCase();
+
+    if (s.includes("new")) return "New Order";
+    if (s.includes("production")) return "In Production";
+    if (s.includes("pickup")) return "Ready for Pickup";
+    if (s.includes("completed")) return "Completed";
+
+    return "New Order"; // fallback
+  }
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const res = await fetch("/api/orders");
+
+        if (!res.ok) {
+          console.error("Failed to fetch orders:", await res.text());
+          setActiveOrders([]);
+          setCompletedOrders([]);
+          return;
+        }
+
+        const rawOrders: { name: string; updated: string; status: string }[] = await res.json();
+
+        const formatDate = (iso: string) =>
+          new Date(iso).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+
+        const formattedOrders: Order[] = rawOrders.map((o) => ({
+          name: o.name,
+          updated: formatDate(o.updated),
+          status: normalizeStatus(o.status),
+        }));
+
+        setActiveOrders(formattedOrders.filter((o) => o.status !== "Completed"));
+        setCompletedOrders(formattedOrders.filter((o) => o.status === "Completed"));
+      } catch (err) {
+        console.error("Unexpected error fetching orders:", err);
+        setActiveOrders([]);
+        setCompletedOrders([]);
+      }
+    }
+
+    fetchOrders();
+  }, []);
+
   return (
     <Tabs defaultValue="active" className="w-full">
-      {/* Tab Triggers */}
-      <TabsList
-        aria-label="Order Tabs"
-        className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 bg-white p-2 rounded-lg shadow mb-4"
-      >
-        <TabsTrigger
-          value="active"
-          className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md
-            data-[state=active]:bg-white data-[state=active]:border data-[state=active]:border-black
-            data-[state=active]:shadow-sm
-            hover:bg-green-300 transition"
-        >
+      <TabsList>
+        <TabsTrigger value="active">
           <PackageSearch className="w-4 h-4" />
           Active Orders
         </TabsTrigger>
-
-        <TabsTrigger
-          value="completed"
-          className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md
-            data-[state=active]:bg-white data-[state=active]:border data-[state=active]:border-black
-            data-[state=active]:shadow-sm
-            hover:bg-red-300 transition"
-        >
+        <TabsTrigger value="completed">
           <PackageCheck className="w-4 h-4" />
           Completed Orders
         </TabsTrigger>
       </TabsList>
 
-      {/* Tab Content */}
       <TabsContent value="active">
         <OrderTable orders={activeOrders} />
       </TabsContent>
-
       <TabsContent value="completed">
         <OrderTable orders={completedOrders} />
       </TabsContent>

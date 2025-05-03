@@ -18,7 +18,6 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (refresh) {
-      // ✅ Do something useful here
       console.log("Orders page was intentionally revisited — refresh=true");
 
       // Scroll to top
