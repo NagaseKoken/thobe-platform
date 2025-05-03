@@ -1,8 +1,9 @@
+import { Decimal } from '@prisma/client/runtime/library';
 import { ShoppingBag } from 'lucide-react';
 interface CardCoverProps {
     name:string,
     city?:string,
-    price?:Number,
+    price?:number,
     type?:string,
     storeId?:string,
     cartId?:string,
