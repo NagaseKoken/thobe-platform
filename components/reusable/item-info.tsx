@@ -9,7 +9,7 @@ interface itemInfoProps {
     type:string,
     state:boolean,
     changeState:any,
-    price:Number,
+    price:number,
 
 }
 export const ItemInfo = ({name,type,state,changeState,price}:itemInfoProps) => {
