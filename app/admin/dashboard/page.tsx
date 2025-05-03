@@ -184,7 +184,7 @@ export default function DashboardPage() {
             </TabsContent>
 
             <TabsContent value="reports">
-              <p>Reports coming soon...</p>
+              <p>Reports not coming soon.</p>
             </TabsContent>
           </Tabs>
         </main>
