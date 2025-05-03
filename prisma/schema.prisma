@@ -99,7 +99,7 @@ model Store{
   rating Int
   created_at DateTime
   ownerId String
-  
+  img String
   request Request[]
   products Product[]
   order Order[]
