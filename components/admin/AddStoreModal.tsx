@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { User } from "@/types";
 import {
   Select,
   SelectContent,
@@ -17,12 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
+
 
 interface AddStoreModalProps {
   open: boolean;
@@ -33,9 +29,9 @@ interface AddStoreModalProps {
     ownerId: string;
     status: boolean;
     rating: number;
+    image: string;  // Add this line
   }) => void;
 }
-
 export function AddStoreModal({ open, onClose, onSubmit }: AddStoreModalProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -43,6 +39,7 @@ export function AddStoreModal({ open, onClose, onSubmit }: AddStoreModalProps) {
     ownerId: "",
     status: true,
     rating: 0,
+    image: "",  // Add this line
   });
   const [owners, setOwners] = useState<User[]>([]);
 
@@ -52,7 +49,7 @@ export function AddStoreModal({ open, onClose, onSubmit }: AddStoreModalProps) {
         const response = await fetch('/api/users');
         const data = await response.json();
         const storeOwners = data.filter((user: User) => 
-          user.role === "OWNER" || user.role === "USER"
+          user.role === "OWNER"
         );
         setOwners(storeOwners);
       } catch (error) {
@@ -63,19 +60,25 @@ export function AddStoreModal({ open, onClose, onSubmit }: AddStoreModalProps) {
     fetchOwners();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Selected Owner ID:', formData.ownerId); // Add this line to debug
-    
-    if (!formData.ownerId) {
-      alert('Please select a store owner');
-      return;
-    }
-    
-    onSubmit(formData);
-    setFormData({ name: "", location: "", ownerId: "", status: true, rating: 0 });
-    onClose();
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      
+      if (!formData.ownerId) {
+        alert('Please select a store owner');
+        return;
+      }
+      
+      onSubmit(formData);
+      setFormData({
+        name: "",
+        location: "",
+        ownerId: "",
+        status: true,
+        rating: 0,
+        image: "",  // Add this line
+      });
+      onClose();
+    };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -164,6 +167,43 @@ export function AddStoreModal({ open, onClose, onSubmit }: AddStoreModalProps) {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            <div>
+              <Label htmlFor="image">Store Image</Label>
+              <div className="flex items-center gap-4">
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setFormData({ ...formData, image: reader.result as string });
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="flex-1"
+                />
+                {formData.image && (
+                  <div className="relative w-16 h-16">
+                    <img
+                      src={formData.image}
+                      alt="Store preview"
+                      className="w-full h-full object-cover rounded-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, image: "" })}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 w-6 h-6 flex items-center justify-center text-xs"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <DialogFooter className="mt-6">

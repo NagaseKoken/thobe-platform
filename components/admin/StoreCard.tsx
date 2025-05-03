@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Store as StoreIcon, MapPin, Star, Package } from "lucide-react";
-import type { Store } from "@/types";
+import type { Store } from "@prisma/client";
 
 interface StoreCardProps {
   store: Store;
@@ -14,7 +15,7 @@ interface StoreCardProps {
 
 
 export function StoreCard({ store }: StoreCardProps) {
-  const { id, name, location, rating, status, products } = store;
+  const { id, name, location, rating, status, products, image } = store;
   const productCount = Array.isArray(products) ? products.length : 0;
 
   const handleRemove = async () => {
@@ -25,6 +26,22 @@ export function StoreCard({ store }: StoreCardProps) {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow border space-y-4">
+      {/* Store Image */}
+      <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
+        {image ? (
+          <Image
+            src={image}
+            alt={`${name} store`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            <StoreIcon className="h-12 w-12 text-gray-400" />
+          </div>
+        )}
+      </div>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">

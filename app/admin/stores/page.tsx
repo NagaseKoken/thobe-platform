@@ -7,7 +7,7 @@ import Footer from "@/components/reusable/Footer";
 import { StoreFilters } from "@/components/admin/StoreFilters";
 import { StoreCard, type Store } from "@/components/admin/StoreCard";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
 import { AddStoreModal } from "@/components/admin/AddStoreModal";
 import {
   Pagination,
@@ -22,7 +22,7 @@ export default function StoresPage() {
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentFilter, setCurrentFilter] = useState<"all" | "active" | "pending">("all");
+  const [currentFilter, setCurrentFilter] = useState<"all" | "active" | "Inactive">("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [stores, setStores] = useState<Store[]>([]);
@@ -45,12 +45,13 @@ export default function StoresPage() {
     ownerId: string;
     status: boolean;
     rating: number;
+    image: string;  // Add this line
   }) => {
     try {
       const res = await fetch("/api/stores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newStore), // Now we can pass the complete newStore object
+        body: JSON.stringify(newStore),
       });
       
       if (!res.ok) {
@@ -67,7 +68,9 @@ export default function StoresPage() {
 
   // Filter & paginate
   const filtered = stores.filter(s => {
-    const statusOK = currentFilter === "all" || s.status === currentFilter;
+    let statusOK = true;
+    if (currentFilter === "active") statusOK = s.status === true;
+    else if (currentFilter === "Inactive") statusOK = s.status === false;
     const textOK = !searchQuery || s.name.toLowerCase().includes(searchQuery.toLowerCase());
     return statusOK && textOK;
   });
@@ -96,13 +99,13 @@ export default function StoresPage() {
         <main className="flex-1 p-6 space-y-6">
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold">Manage Stores</h1>
-            <Button onClick={() => setIsAddModalOpen(true)}>Add New Store</Button>
+            <Button onClick={() => setIsAddModalOpen(true)}><Plus className="w-4 h-4 mr-2" />Add Store</Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <DashboardCard title="Total Stores" value={stores.length} />
-            <DashboardCard title="Active Stores" value={stores.filter(s => s.status === "active").length} />
-            <DashboardCard title="Pending Approval" value={stores.filter(s => s.status === "pending").length} />
+            <DashboardCard title="Active Stores" value={stores.filter(s => s.status === true).length} />
+            <DashboardCard title="Inactive Approval" value={stores.filter(s => s.status === false).length} />
           </div>
 
           <StoreFilters

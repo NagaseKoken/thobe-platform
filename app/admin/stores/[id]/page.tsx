@@ -5,64 +5,122 @@ import { useParams } from "next/navigation";
 import Navbar from "@/components/reusable/navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import Footer from "@/components/reusable/Footer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Search } from "lucide-react";
-import { Product, Order, Request } from "@/types";
+import { Product, Order, Request } from "@prisma/client";
+import { ProductCard } from "@/components/admin/ProductCard";
 import Link from "next/link";
 
+interface Store {
+  id: string;
+  name: string;
+  location: string;
+  status: boolean;
+  rating: number;
+  ownerId: string;
+  image?: string;
+  created_at: Date;
+}
 
+interface OrderWithUser extends Order {
+  user?: { name?: string | null };
+}
 
 export default function StoreDetailsPage() {
   const params = useParams();
-  const [store, setStore] = useState<any>(null);
+  const [store, setStore] = useState<Store | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderWithUser[]>([]);
   const [requests, setRequests] = useState<Request[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTab, setCurrentTab] = useState<"products" | "orders" | "requests">("products");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch store details
-    fetch(`/api/stores/${params.id}`)
-      .then(res => res.json())
-      .then(setStore)
-      .catch(console.error);
+    async function fetchStoreData() {
+      setIsLoading(true);
+      setError(null);
 
-    // Fetch store products
-    fetch(`/api/stores/${params.id}/products`)
-      .then(res => res.json())
-      .then(setProducts)
-      .catch(console.error);
+      try {
+        const [storeRes, productsRes, ordersRes, requestsRes] = await Promise.all([
+          fetch(`/api/stores/${params.id}`),
+          fetch(`/api/stores/${params.id}/products`),
+          fetch(`/api/stores/${params.id}/orders?includeUser=true`), // see note below
+          fetch(`/api/stores/${params.id}/requests`)
+        ]);
 
-    // Fetch store orders
-    fetch(`/api/stores/${params.id}/orders`)
-      .then(res => res.json())
-      .then(setOrders)
-      .catch(console.error);
+        if (!storeRes.ok) {
+          throw new Error('Failed to fetch store details');
+        }
 
-    // Fetch store requests
-    fetch(`/api/stores/${params.id}/requests`)
-      .then(res => res.json())
-      .then(setRequests)
-      .catch(console.error);
+        const [storeData, productsData, ordersData, requestsData] = await Promise.all([
+          storeRes.json(),
+          productsRes.ok ? productsRes.json() : [],
+          ordersRes.ok ? ordersRes.json() : [],
+          requestsRes.ok ? requestsRes.json() : []
+        ]);
+
+        setStore(storeData);
+        setProducts(productsData);
+        setOrders(ordersData);
+        setRequests(requestsData);
+      } catch (err) {
+        console.error('Failed to fetch store data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load store data');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (params.id) {
+      fetchStoreData();
+    }
   }, [params.id]);
 
-  const filterItems = (items: any[]) => {
+  const filterItems = <T extends { name?: string; type?: string; status?: string }>(
+    items: T[]
+  ): T[] => {
+    const query = searchQuery.toLowerCase();
     return items.filter(item =>
-      item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.customerName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      item.name?.toLowerCase().includes(query) ||
+      // @ts-ignore
+      item.user?.name?.toLowerCase().includes(query) ||
+      item.type?.toLowerCase().includes(query) ||
+      item.status?.toLowerCase().includes(query)
     );
   };
 
-  if (!store) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
-  const filteredProducts = filterItems(products);
-  const filteredOrders = filterItems(orders);
-  const filteredRequests = filterItems(requests);
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-lg text-red-500">{error}</div>
+      </div>
+    );
+  }
+
+  if (!store) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-lg">Store not found</div>
+      </div>
+    );
+  }
+
+  const filteredProducts = filterItems<Product>(products);
+  const filteredOrders = filterItems<OrderWithUser>(orders);
+  const filteredRequests = filterItems<Request>(requests);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -129,16 +187,7 @@ export default function StoreDetailsPage() {
             {currentTab === "products" && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredProducts.map(product => (
-                  <Card key={product.id} className="overflow-hidden">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">{product.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-500">Price: ${product.price}</p>
-                      <p className="text-sm text-gray-500">Stock: {product.stock}</p>
-                      <p className="text-sm text-gray-500">Status: {product.status}</p>
-                    </CardContent>
-                  </Card>
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}
@@ -148,10 +197,14 @@ export default function StoreDetailsPage() {
                 {filteredOrders.map(order => (
                   <Card key={order.id} className="overflow-hidden">
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">{order.customerName}</CardTitle>
+                      <CardTitle className="text-lg">
+                        {order.user?.name || "Unknown Customer"}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-gray-500">Date: {new Date(order.date).toLocaleDateString()}</p>
+                      <p className="text-sm text-gray-500">
+                        Date: {new Date(order.created_at).toLocaleDateString()}
+                      </p>
                       <p className="text-sm text-gray-500">Total: ${order.total}</p>
                       <p className="text-sm text-gray-500">Status: {order.status}</p>
                     </CardContent>
@@ -168,9 +221,11 @@ export default function StoreDetailsPage() {
                       <CardTitle className="text-lg">{request.type}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-gray-500">Date: {new Date(request.date).toLocaleDateString()}</p>
+                      <p className="text-sm text-gray-500">
+                        Date: {new Date(request.created_at).toLocaleDateString()}
+                      </p>
                       <p className="text-sm text-gray-500">Status: {request.status}</p>
-                      <p className="text-sm text-gray-500">{request.description}</p>
+                      {/* No description field in your schema */}
                     </CardContent>
                   </Card>
                 ))}

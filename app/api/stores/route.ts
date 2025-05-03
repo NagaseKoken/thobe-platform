@@ -8,7 +8,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { name, location, status, rating, ownerId } = await req.json()
+  const { name, location, status, rating, ownerId, image } = await req.json()
   const store = await db.store.create({
     data: {
       name,
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       status: Boolean(status), // Ensure boolean conversion
       rating: Number(rating),  // Ensure number conversion
       ownerId,
+      image, 
       created_at: new Date(),
     },
   })

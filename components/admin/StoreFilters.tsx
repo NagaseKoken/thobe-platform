@@ -42,8 +42,8 @@ export function StoreFilters({
           <DropdownMenuItem onClick={() => onFilterChange("active")}>
             Active
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onFilterChange("pending")}>
-            Pending
+          <DropdownMenuItem onClick={() => onFilterChange("Inactive")}>
+          Inactive
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
