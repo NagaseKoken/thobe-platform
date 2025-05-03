@@ -10,7 +10,7 @@ export interface itemsCardProp {
     storeId: string,
     itemId:string,
     name: string,
-    price: Number,
+    price: number,
     type: string,
 }
 

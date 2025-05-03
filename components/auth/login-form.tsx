@@ -1,77 +1,114 @@
 'use client'
-
-import { useState, useTransition } from 'react';
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { startTransition, useState, useTransition } from 'react';
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form'
 import { Input } from '@/components/ui/input';
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
-
+import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
+import { LoginSchema } from '@/schemas';
+import { FormSuccess } from "@/components/auth/form-success";
+import { FormError } from "@/components/auth/form-error";
+import { login } from "@/actions/login";
 
 export const LoginForm = () => {
-   
-    return (
-        // <CardWrapper headerLabel="Create an account" backButtonHref="/auth/login" backButtonLabel="Already have an account" showSocial>
-        //     <Form>
-        //         <form className='space-y-6' >
-        //            <div className='space-y-4'>
-        //            <FormField  name='name' render={({field}) => (
-        //                 <FormItem>
-        //                     <FormLabel>Name</FormLabel>
-        //                     <FormControl>
-        //                         <Input {...field} placeholder='John Deo' type='name' disabled={false}/>
-        //                     </FormControl>
-        //                     <FormMessage />
-        //                 </FormItem>
-        //             )}/>
-        //              <FormField  name='email' render={({field}) =>(
-        //                     <FormItem>
-        //                         <FormLabel>Email</FormLabel>
-        //                         <FormControl>
-        //                             <Input {...field} placeholder='john.deo@example.com' type='email' disabled={false}/>
-        //                         </FormControl>
-        //                         <FormMessage />
-        //                     </FormItem>
-        //                 )}/>
-        //                 <FormField  name='password' render={({field}) =>(
-        //                     <FormItem>
-        //                         <FormLabel>Password</FormLabel>
-        //                         <FormControl>
-        //                             <Input {...field} placeholder='******' type='password' disabled={false}/>
-        //                         </FormControl>
-        //                         <FormMessage />
-        //                     </FormItem>
-        //                 )}/>
-        //            </div>
-                   
-        //            <Button type='submit' className='w-full' disabled={false}>
-        //                 Create an account
-        //            </Button>
-        //         </form>
-        //     </Form>
-        // </CardWrapper>
-    
-        <CardWrapper headerLabel="Create an account" backButtonHref="/auth/login" backButtonLabel="Already have an account" showSocial >
+    const searchParams = useSearchParams()
+
+
+    const urlError = searchParams.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider":""
+    const [showTwoFactor,setShowTwoFactor] = useState(false)
+    const [error,setError] = useState<string | undefined>("")
+    const [success,setSuccess] = useState<string | undefined>("")
+    const [isPending, startTransition] = useTransition()
+
+
+    const form = useForm<z.infer<typeof LoginSchema>>({
+        resolver: zodResolver(LoginSchema),
+        defaultValues:{
+            email:"",
+            password:"",
+        }
+    })
+
+    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         
-                <form className='space-y-6' >
-                   <div className='space-y-4'>
+        setError("")
+        setSuccess("")
 
-                                <label>Email</label>
-                                    <Input  placeholder='john.deo@example.com' type='email' disabled={false}/>
-                                <label>Password</label>
-                                    <Input placeholder='******' type='password' disabled={false}/>
-                   </div>
-
-                   <Button  className='w-full' disabled={false} >
-                        <Link href="/home">Create an account</Link>
-                   </Button>
-                   <div className="relative flex items-center py-4">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="flex-shrink mx-4 text-gray-500">or continue with</span>
-                        <div className="flex-grow border-t border-gray-300"></div>
+        startTransition( ()=>{
+            login(values)
+            .then((data)=>{
+                if(data?.error){
+                    form.reset()
+                    setError(data.error)
+                }
+                if(data?.success){
+                    form.reset()
+                    setError(data.success)
+                }
+                // if(data?.twoFactor){
+                //     setShowTwoFactor(true)
+                // }
+            })
+            .catch(()=> setError("Something went wrong"))
+        })
+    }
+    return (
+            
+        <CardWrapper headerLabel='Welcome back!' backButtonLabel="Don't have an account?" backButtonHref='/auth/register' showSocial>
+            <Form {...form}>
+                <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className='space-y-4'>
+                    {/* {showTwoFactor && (
+                            <FormField control={form.control} name='code' render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Two Factor Code</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder='123456' type='code' disabled={isPending}/>
+                                    </FormControl>
+                                </FormItem>
+                            )}/>
+                        )} */}
+                        
+                            <>
+                                <FormField control={form.control} name='email' render={({field}) =>(
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} placeholder='john.deo@example.com' type='email' disabled={isPending}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}/>
+                                <FormField control={form.control} name='password' render={({field}) =>(
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} placeholder='******' type='password' disabled={isPending}/>
+                                        </FormControl>
+                                        <Button size='sm' variant='link' asChild className='px-0 font-normal'>
+                                            <Link href="/auth/reset">
+                                                Forgot password?
+                                            </Link>
+                                        </Button>
+                                        <FormMessage />
+                                    </FormItem>
+                            )}/>
+                            </>
+                        
+                        
                     </div>
+                    <FormError message={error || urlError} />
+                    <FormSuccess message={success} />
+                    <Button type='submit' className='w-full' disabled={isPending}>
+                        {/* {showTwoFactor ? 'Confirm':'Login'} */}
+                    </Button>
                 </form>
-           
+            </Form>
         </CardWrapper>
+
     )
 }

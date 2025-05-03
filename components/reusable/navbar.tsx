@@ -5,6 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage,  } from "@/components/ui/avatar"
 import Link from "next/link";
 import { ChevronDown, Search, ShoppingBag,LogOut   } from 'lucide-react';
 
+import { LogoutButton } from "@/components/auth/logout-button";
+
 interface NavBarProps {
     admin?: boolean,
     owner?: boolean,
@@ -44,14 +46,12 @@ const Navbar = ({admin, owner}: NavBarProps) => {
                             </Avatar>
                         </DropdownMenuTrigger> 
                     <DropdownMenuContent align="start">
-
-                        <Link href='/'>
-                            <DropdownMenuItem>
-                                <LogOut className="h-4 w-4 mr-2" />
-                                Logout
-                                {/*  this should be login but for test purposes its login  */}
+                        <LogoutButton>
+                            <DropdownMenuItem className="font-semibold">
+                                <LogOut className="h-4 w-4 mr-2"/>
+                                    Logout 
                             </DropdownMenuItem>
-                        </Link>
+                        </LogoutButton>
                     </DropdownMenuContent>
                     </DropdownMenu>
                     </div>
