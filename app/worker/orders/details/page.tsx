@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -25,7 +25,7 @@ interface OrderDetails {
   total: number;
 }
 
-export default function OrderDetailsPage() {
+function OrderDetailsContent() {
   const params = useSearchParams();
   const id = params.get("id") || "";
 
@@ -73,7 +73,6 @@ export default function OrderDetailsPage() {
       </div>
     );
   }
-  
 
   if (!order) {
     return (
@@ -155,5 +154,13 @@ export default function OrderDetailsPage() {
       </div>
       <Footer />
     </div>
+  );
+}
+
+export default function OrderDetailsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OrderDetailsContent />
+    </Suspense>
   );
 }
