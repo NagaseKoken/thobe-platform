@@ -12,11 +12,16 @@ import { FormSuccess } from "@/components/auth/form-success";
 import { FormError } from "@/components/auth/form-error";
 import { RegisterSchema } from "@/schemas/index"
 import { register } from '@/actions/register';
+import LoadingButton from "../reusable/loading-button";
+import authClient from "@/lib/auth-cilent";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const RegisterForm = () => {
     const [error,setError] = useState<string | undefined>("")
     const [success,setSuccess] = useState<string | undefined>("")
     const [isPending, startTransition] = useTransition()
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof RegisterSchema>>({
         resolver: zodResolver(RegisterSchema),
@@ -26,17 +31,46 @@ export const RegisterForm = () => {
             name:"",
         },
     })
-    const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-        setError("")
-        setSuccess("")
-
-        startTransition(() => {
-            register(values)
-            .then((data) => {
-                setError(data.error)
-                setSuccess(data.success)
-            })
+    const onSubmit = async(values: z.infer<typeof RegisterSchema>) => {
+        const res = await authClient.signUp.email({
+            email: values.email,
+            password: values.password,
+            name: values.name,
         })
+
+        if(res.error) {
+            toast.error("Error Signing Up")
+            return
+        }
+            toast.success("Signed Up Successfully")
+            const role = "USER"
+            if(role === "USER") {
+                router.push("/home")
+                return
+            }
+            if(role === "ADMIN") {
+                router.push("/admin")
+                return
+            }
+            if(role === "WORKER") {
+                router.push("/worker")
+                return
+            }
+            if(role === "OWNER") {
+                router.push("/owner")
+                return
+            }
+        
+        // setError("")
+        // setSuccess("")
+
+        // startTransition(() => {
+        //     register(values)
+        //     .then((data) => {
+        //         setError(data.error)
+        //         setSuccess(data.success)
+        //     })
+        // })
     }
     return (
         <CardWrapper headerLabel="Create an account" backButtonHref="/auth/login" backButtonLabel="Already have an account" showSocial>
@@ -73,9 +107,9 @@ export const RegisterForm = () => {
                    </div>
                    <FormError message={error}/>
                    <FormSuccess message={success}/>
-                   <Button type='submit' className='w-full' disabled={isPending}>
+                   <LoadingButton type='submit' pending={form.formState.isSubmitting} className='w-full cursor-pointer' disabled={form.formState.isSubmitting || !form.formState.isValid}>
                         Create an account
-                   </Button>
+                   </LoadingButton>
                 </form>
             </Form>
         </CardWrapper>

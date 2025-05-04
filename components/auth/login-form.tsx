@@ -8,11 +8,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { LoginSchema } from '@/schemas';
 import { FormSuccess } from "@/components/auth/form-success";
 import { FormError } from "@/components/auth/form-error";
 import { login } from "@/actions/login";
+import LoadingButton from "../reusable/loading-button";
+import authClient from "@/lib/auth-cilent";
+import { toast } from "sonner";
 
 export const LoginForm = () => {
     const searchParams = useSearchParams()
@@ -23,6 +26,7 @@ export const LoginForm = () => {
     const [error,setError] = useState<string | undefined>("")
     const [success,setSuccess] = useState<string | undefined>("")
     const [isPending, startTransition] = useTransition()
+    const router = useRouter()
 
 
     const form = useForm<z.infer<typeof LoginSchema>>({
@@ -33,28 +37,56 @@ export const LoginForm = () => {
         }
     })
 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        
-        setError("")
-        setSuccess("")
+    const onSubmit = async(values: z.infer<typeof LoginSchema>) => {
+       const res = await authClient.signIn.email({
+            email: values.email,
+            password: values.password,
+        }
+    )
 
-        startTransition( ()=>{
-            login(values)
-            .then((data)=>{
-                if(data?.error){
-                    form.reset()
-                    setError(data.error)
-                }
-                if(data?.success){
-                    form.reset()
-                    setError(data.success)
-                }
-                // if(data?.twoFactor){
-                //     setShowTwoFactor(true)
-                // }
-            })
-            .catch(()=> setError("Something went wrong"))
-        })
+    if(res.error) {
+        toast.error("Error Signing Up")
+        return
+    }
+        toast.success("Signed Up Successfully")
+        const role = "USER"
+        if(role === "USER") {
+            router.push("/home")
+            return
+        }
+        if(role === "ADMIN") {
+            router.push("/admin")
+            return
+        }
+        if(role === "WORKER") {
+            router.push("/worker")
+            return
+        }
+        if(role === "OWNER") {
+            router.push("/owner")
+            return
+        }
+    
+        // setError("")
+        // setSuccess("")
+
+        // startTransition( ()=>{
+        //     login(values)
+        //     .then((data)=>{
+        //         if(data?.error){
+        //             form.reset()
+        //             setError(data.error)
+        //         }
+        //         if(data?.success){
+        //             form.reset()
+        //             setError(data.success)
+        //         }
+        //         // if(data?.twoFactor){
+        //         //     setShowTwoFactor(true)
+        //         // }
+        //     })
+        //     .catch(()=> setError("Something went wrong"))
+        // })
     }
     return (
             
@@ -103,10 +135,15 @@ export const LoginForm = () => {
                     </div>
                     <FormError message={error || urlError} />
                     <FormSuccess message={success} />
+<<<<<<< HEAD
                     <Button type='submit' className='w-full' disabled={isPending}>
                         Login
                         {/* {showTwoFactor ? 'Confirm':'Login'} */}
                     </Button>
+=======
+                    <LoadingButton pending={form.formState.isSubmitting} type='submit' className='w-full cursor-pointer' disabled={form.formState.isSubmitting || !form.formState.isValid}>  
+Login                    </LoadingButton>
+>>>>>>> 8ac97e1 (feat: better-auth, add owners db tables and endpoints)
                 </form>
             </Form>
         </CardWrapper>
