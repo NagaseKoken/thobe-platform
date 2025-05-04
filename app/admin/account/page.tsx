@@ -35,6 +35,7 @@ export default function UserManagementPage() {
       const data = await response.json();
       setUsers(data);
     } catch (error) {
+      console.error(error);
       setMessage({ text: 'Failed to fetch users', type: 'error' });
     }
   };

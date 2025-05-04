@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/reusable/Navbar';
+import Navbar from '@/components/reusable/navbar';
 import Footer from '@/components/reusable/Footer';
 import { Clipboard, ShoppingBag, User } from 'lucide-react';
 
