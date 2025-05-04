@@ -1,4 +1,3 @@
-import { useSearchParams } from "next/navigation";
 
 import Navbar from "@/components/reusable/navbar";
 import PageLayout from "@/components/reusable/PageLayout";

@@ -37,3 +37,12 @@ export const NewPasswordSchema = z.object({
         message:"Minimum 6 characters required"
     })
 })
+
+
+
+export const MeasurementsSchema = z.object({
+    chest: z.coerce.number(),
+    waist: z.coerce.number(),
+    hips: z.coerce.number(),
+    height: z.coerce.number()
+});

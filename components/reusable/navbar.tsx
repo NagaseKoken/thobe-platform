@@ -1,5 +1,5 @@
 "use client"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,DropdownMenuSeparator, DropdownMenuTrigger  } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger  } from "@/components/ui/dropdown-menu";
 import { FaUser } from "react-icons/fa"
 import { Avatar, AvatarFallback, AvatarImage,  } from "@/components/ui/avatar"
 import Link from "next/link";
@@ -22,7 +22,7 @@ const Navbar = ({admin, owner}: NavBarProps) => {
                 <div>Stores</div>
                 {admin && <div>Dashboard</div>}
                 {owner && <div>My Store</div>}
-                <div className=" ">Orders</div>
+                <div className=" "><Link href="/orders">Orders</Link></div>
                 <div> 
                     <DropdownMenu>
                     <DropdownMenuTrigger className="text-center cursor-pointer"><div >Contact Us <ChevronDown className="w-4 h-4 inline"/></div></DropdownMenuTrigger> 

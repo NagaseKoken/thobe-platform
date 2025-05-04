@@ -1,15 +1,15 @@
-import { ShoppingBag } from 'lucide-react';
+
 interface CardCoverProps {
     name:string,
     city?:string,
-    price?:Number,
+    price?:number,
     type?:string,
     storeId?:string,
     cartId?:string,
     cart?:boolean,
     googleMapUrl?:string
 }
-export const CardCover = ({cart,name,cartId,city,googleMapUrl,storeId,type,price}:CardCoverProps) => {
+export const CardCover = ({name,city,type,price}:CardCoverProps) => {
     return ( 
         <>
             <div className='p-3 absolute bottom-0 left-0'>

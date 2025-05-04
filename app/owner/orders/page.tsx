@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Navbar from "@/components/reusable/navbar";
-
 import PageLayout from "@/components/reusable/PageLayout";
 import HeaderSection from "@/components/reusable/HeaderSection";
 import OrderFooter from "@/components/reusable/Footer";
 import TabsOrders from "@/components/orders/TabsOrders";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { Suspense } from "react";
 
-export default function OrdersPage() {
+function OrdersContent() {
   const searchParams = useSearchParams();
   const refresh = searchParams.get("refresh");
 
@@ -24,7 +24,6 @@ export default function OrdersPage() {
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       // Or trigger any state reset, reload logic, etc.
-      // Example: reset filters or refetch data from a client API
     }
   }, [refresh]);
 
@@ -57,5 +56,13 @@ export default function OrdersPage() {
 
       <OrderFooter />
     </>
+  );
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OrdersContent />
+    </Suspense>
   );
 }

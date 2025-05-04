@@ -1,9 +1,9 @@
 // /app/api/users/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { hash } from "bcryptjs";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const users = await db.user.findMany()
   return NextResponse.json(users)
 }

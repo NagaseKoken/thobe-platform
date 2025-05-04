@@ -1,7 +1,7 @@
 'use client'
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { startTransition, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form'
 import { Input } from '@/components/ui/input';
@@ -19,7 +19,7 @@ export const LoginForm = () => {
 
 
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider":""
-    const [showTwoFactor,setShowTwoFactor] = useState(false)
+    //const [showTwoFactor,setShowTwoFactor] = useState(false)
     const [error,setError] = useState<string | undefined>("")
     const [success,setSuccess] = useState<string | undefined>("")
     const [isPending, startTransition] = useTransition()
@@ -104,6 +104,7 @@ export const LoginForm = () => {
                     <FormError message={error || urlError} />
                     <FormSuccess message={success} />
                     <Button type='submit' className='w-full' disabled={isPending}>
+                        Login
                         {/* {showTwoFactor ? 'Confirm':'Login'} */}
                     </Button>
                 </form>

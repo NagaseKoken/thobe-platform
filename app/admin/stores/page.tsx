@@ -5,7 +5,8 @@ import Navbar from "@/components/reusable/navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import Footer from "@/components/reusable/Footer";
 import { StoreFilters } from "@/components/admin/StoreFilters";
-import { StoreCard, type Store } from "@/components/admin/StoreCard";
+import { StoreCard } from "@/components/admin/StoreCard";
+import { Store } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Menu, Plus } from "lucide-react";
 import { AddStoreModal } from "@/components/admin/AddStoreModal";
@@ -112,7 +113,7 @@ export default function StoresPage() {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             currentFilter={currentFilter}
-            onFilterChange={setCurrentFilter as any}
+            onFilterChange={(filter: string) => setCurrentFilter(filter as "all" | "active" | "Inactive")}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
