@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Store as StoreIcon, MapPin, Star, Package } from "lucide-react";
 import type { Product, Store } from "@prisma/client";
@@ -8,6 +10,11 @@ import { useParams } from "next/navigation";
 interface StoreCardProps {
   store: Store;
 }
+
+
+
+
+
 
 export function StoreCard({ store }: StoreCardProps) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,29 +37,45 @@ export function StoreCard({ store }: StoreCardProps) {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-sm border">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <StoreIcon className="w-5 h-5 text-primary" />
+    <div className="p-6 bg-white rounded-lg shadow border space-y-4">
+      {/* Store Image */}
+      <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
+        {image ? (
+          <Image
+            src={image}
+            alt={`${name} store`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            <StoreIcon className="h-12 w-12 text-gray-400" />
           </div>
+        )}
+      </div>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <StoreIcon className="h-5 w-5 text-primary" />
           <div>
-            <h3 className="font-semibold">{store.name}</h3>
-            <div className="flex items-center gap-1 text-sm text-gray-500">
-              <MapPin className="w-4 h-4" />
-              {store.location}
+            <h3 className="font-semibold">{name}</h3>
+            <div className="flex items-center text-sm text-gray-500">
+              <MapPin className="h-4 w-4 mr-1" />
+              {location}
             </div>
           </div>
         </div>
-        <Badge variant={store.status === 'active' ? "success" : "warning"}>
-          {store.status}
+        <Badge variant={status ? "success" : "destructive"}>
+          {status ? "Active" : "Inactive"}
         </Badge>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-4">
-        <div className="flex items-center gap-2">
-          <Star className="w-4 h-4 text-yellow-400" />
-          <span className="text-sm">{store.rating}/5</span>
+      {/* Stats */}
+      <div className="flex justify-between text-sm">
+        <div className="flex items-center">
+          <Star className="h-4 w-4 mr-1" />
+          {rating}/5
         </div>
         <div className="flex items-center">
           <Package className="h-4 w-4 mr-1" />
@@ -60,9 +83,21 @@ export function StoreCard({ store }: StoreCardProps) {
         </div>
       </div>
 
-      <div className="mt-4 flex items-center gap-2">
-        <Button variant="outline" className="flex-1">View Details</Button>
-        <Button variant="destructive" size="icon">⋮</Button>
+      {/* Actions */}
+      <div className="flex gap-2">
+        <Link href={`/admin/stores/${id}`} className="flex-1">
+          <Button variant="outline" className="w-full">
+            Details
+          </Button>
+        </Link>
+        <Button
+          variant="destructive"
+          size="icon"
+          onClick={handleRemove}
+          title="Remove store"
+        >
+          ✕
+        </Button>
       </div>
     </div>
   );
