@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Store as StoreIcon, MapPin, Star, Package } from "lucide-react";
 import type { Product, Store } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 
 interface StoreCardProps {
   store: Store;

@@ -91,10 +91,6 @@ export default function WorkerProfilePage() {
     setIsEditing((prev) => !prev);
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-    setEdited(profile);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

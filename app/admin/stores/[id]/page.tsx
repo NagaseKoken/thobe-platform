@@ -87,7 +87,6 @@ export default function StoreDetailsPage() {
     const query = searchQuery.toLowerCase();
     return items.filter(item =>
       item.name?.toLowerCase().includes(query) ||
-      // @ts-ignore
       item.user?.name?.toLowerCase().includes(query) ||
       item.type?.toLowerCase().includes(query) ||
       item.status?.toLowerCase().includes(query)
@@ -174,7 +173,7 @@ export default function StoreDetailsPage() {
                 className="pl-8"
               />
             </div>
-            <Tabs value={currentTab} onValueChange={(v) => setCurrentTab(v as any)} className="w-full sm:w-auto">
+            <Tabs value={currentTab} onValueChange={(v: "products" | "orders" | "requests") => setCurrentTab(v)} className="w-full sm:w-auto">
               <TabsList>
                 <TabsTrigger value="products">Products</TabsTrigger>
                 <TabsTrigger value="orders">Orders</TabsTrigger>

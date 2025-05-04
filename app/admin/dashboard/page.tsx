@@ -35,8 +35,17 @@ export default function DashboardPage() {
           fetch("/api/stores"),
         ]);
 
-        const users: any[] = await usersRes.json();
-        const stores: any[] = await storesRes.json();
+        interface User {
+          id: string;
+          name: string;
+          email: string;
+          createdAt?: string;
+          created_at?: string;
+          date?: string;
+        }
+
+        const users: User[] = await usersRes.json();
+        const stores: User[] = await storesRes.json();
 
         // Overall counts
         const totalUsers = Array.isArray(users) ? users.length : 0;

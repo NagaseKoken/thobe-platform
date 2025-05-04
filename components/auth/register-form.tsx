@@ -8,7 +8,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@
 import { Input } from '@/components/ui/input';
 import { Button } from "@/components/ui/button"
 
-import { LoginSchema } from "@/schemas";
 import { FormSuccess } from "@/components/auth/form-success";
 import { FormError } from "@/components/auth/form-error";
 import { RegisterSchema } from "@/schemas/index"

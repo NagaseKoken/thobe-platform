@@ -3,10 +3,7 @@ import Navbar from "@/components/reusable/navbar";
 import { StoreCard } from "@/components/reusable/store-card";
 import Footer from "@/components/reusable/Footer";
 
-interface Store {
-    id: string;
-    name: string;
-}
+
   
 
 const StoresPage = () => {

@@ -113,7 +113,7 @@ export default function StoresPage() {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             currentFilter={currentFilter}
-            onFilterChange={setCurrentFilter as any}
+            onFilterChange={(filter: string) => setCurrentFilter(filter as "all" | "active" | "Inactive")}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

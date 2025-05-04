@@ -1,5 +1,5 @@
 "use client"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,DropdownMenuSeparator, DropdownMenuTrigger  } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger  } from "@/components/ui/dropdown-menu";
 import { FaUser } from "react-icons/fa"
 import { Avatar, AvatarFallback, AvatarImage,  } from "@/components/ui/avatar"
 import Link from "next/link";

@@ -1,6 +1,5 @@
 "use client";
 
-import OrderTable, { Order } from "@/components/orders/OrderTable";
 import {
   Tabs,
   TabsList,
