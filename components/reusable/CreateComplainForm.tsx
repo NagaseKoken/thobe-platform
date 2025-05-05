@@ -1,32 +1,72 @@
 "use client";
-
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { ComplaintSchema } from "@/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+	Form,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormControl,
+	FormMessage,
+} from "../ui/form";
+import { toast } from "sonner";
+import { createComplaint } from "@/actions/create-complaint";
+import LoadingButton from "./loading-button";
 
 export default function CreateComplaintForm() {
-  return (
-    <form className="space-y-6 mt-8 w-full">
-        <div className="flex flex-row gap-4 items-center justify-center w-full">
+	const form = useForm<z.infer<typeof ComplaintSchema>>({
+		resolver: zodResolver(ComplaintSchema),
+		defaultValues: {
+			description: "",
+		},
+	});
 
-      <div className="w-full">
-        <label className="block font-semibold mb-1">Name</label>
-        <Input placeholder="Mohammad" required />
-      </div>
-      <div className="w-full">
-        <label className="block font-semibold mb-1">Email</label>
-        <Input placeholder="example@acme.com" type="text" required />
-      </div>
-        </div>
+	const onSubmit = async (values: z.infer<typeof ComplaintSchema>) => {
+		try {
+			await createComplaint(values);
+			toast.success("Complaint Created Successfully");
+			form.reset();
+		} catch (error) {
+			toast.error("Error Creating Complaint");
+		}
+	};
 
-      <div>
-        <label className="block font-semibold mb-1">Description</label>
-        <Textarea placeholder="Add new feature..." required />
-      </div>
-
-      <div className="flex gap-4 mt-6">
-        <Button type="submit" size={"lg"} className="w-full">Save</Button>
-      </div>
-    </form>
-  );
+	return (
+		<Form {...form}>
+			<form
+				className="space-y-6 mt-8 w-full"
+				onSubmit={form.handleSubmit(onSubmit)}
+			>
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Description</FormLabel>
+							<FormControl>
+								<Textarea
+									{...field}
+									placeholder="Add new feature..."
+									required
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<div className="flex gap-4 mt-6">
+					<LoadingButton
+						type="submit"
+						pending={form.formState.isSubmitting}
+						disabled={form.formState.isSubmitting || !form.formState.isValid}
+					>
+						Save
+					</LoadingButton>
+				</div>
+			</form>
+		</Form>
+	);
 }

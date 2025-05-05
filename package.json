@@ -4,9 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "seed": "tsx prisma/seed.ts",
     "build": "npx prisma generate && next build",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate dev",
     "start": "next start",
     "lint": "next lint"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.0",
@@ -20,7 +26,9 @@
     "@radix-ui/react-select": "^2.2.2",
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/react-tabs": "^1.1.7",
+    "@tanstack/react-query": "^5.75.1",
     "bcryptjs": "^3.0.2",
+    "better-auth": "^1.2.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.27",
@@ -30,6 +38,7 @@
     "next": "15.3.0",
     "next-auth": "^5.0.0-beta.27",
     "next-connect": "^1.0.0",
+    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
@@ -57,6 +66,8 @@
     "postcss": "^8.5.3",
     "prisma": "^6.7.0",
     "tailwindcss": "^4.1.4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5"
   }
 }

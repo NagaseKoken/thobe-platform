@@ -10,7 +10,7 @@ interface BackButtonProps {
 export const BackButton = ({href,label}:BackButtonProps) => {
     return (
         <Button variant='link' className="font-normal text-sm w-full" size='sm' asChild>
-            <Link href={href}>
+            <Link href={href} prefetch={true}>
                 {label}
             </Link>
         </Button>

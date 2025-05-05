@@ -1,6 +1,7 @@
 "use client"
 
 import { logout } from "@/actions/logout";
+import authClient from "@/lib/auth-cilent";
 
 interface LogoutButtonProps {
     children ?: React.ReactNode;
@@ -8,7 +9,7 @@ interface LogoutButtonProps {
 }
 export const LogoutButton = ({children}:LogoutButtonProps) => {
     const onClick = () =>{
-        logout();
+        authClient.signOut()
     }
     return (
         
