@@ -10,6 +10,8 @@ import { queryClient } from "../reusable/provider";
 import LoadingButton from "../reusable/loading-button";
 import { useState } from "react";
 import { set } from "zod";
+import { get } from "http";
+import { getProducts } from "@/actions/queries";
 
 type Fabric = {
 	id: number;
@@ -67,10 +69,7 @@ export default function DeleteProductsTabs() {
 		isError,
 	} = useQuery({
 		queryKey: ["products"],
-		queryFn: async () => {
-			const products = db.product.findMany({});
-			return products;
-		},
+		queryFn: getProducts,
 	});
 	const { mutate: deleteItem, isPending: mutationPending } = useMutation({
 		mutationFn: async (id: string) => {

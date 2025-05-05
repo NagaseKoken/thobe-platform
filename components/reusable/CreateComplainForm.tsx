@@ -1,14 +1,11 @@
 "use client";
-
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { ComplaintSchema } from "@/schemas";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import authClient from "@/lib/auth-cilent";
 import { z } from "zod";
 import {
+	Form,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -17,6 +14,7 @@ import {
 } from "../ui/form";
 import { toast } from "sonner";
 import { createComplaint } from "@/actions/create-complaint";
+import LoadingButton from "./loading-button";
 
 export default function CreateComplaintForm() {
 	const form = useForm<z.infer<typeof ComplaintSchema>>({
@@ -50,7 +48,7 @@ export default function CreateComplaintForm() {
 							<FormLabel>Description</FormLabel>
 							<FormControl>
 								<Textarea
-									onChange={field.onChange}
+									{...field}
 									placeholder="Add new feature..."
 									required
 								/>
@@ -59,14 +57,14 @@ export default function CreateComplaintForm() {
 						</FormItem>
 					)}
 				/>
-				<div>
-					<label className="block font-semibold mb-1">Description</label>
-				</div>
-
 				<div className="flex gap-4 mt-6">
-					<Button type="submit" size={"lg"} className="w-full">
+					<LoadingButton
+						type="submit"
+						pending={form.formState.isSubmitting}
+						disabled={form.formState.isSubmitting || !form.formState.isValid}
+					>
 						Save
-					</Button>
+					</LoadingButton>
 				</div>
 			</form>
 		</Form>

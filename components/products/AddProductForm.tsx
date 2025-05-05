@@ -27,7 +27,6 @@ export default function AddProductForm() {
 			price: 0,
 			fabricType: "",
 			description: "",
-			image: "",
 		},
 	});
 
@@ -40,28 +39,22 @@ export default function AddProductForm() {
 			console.error("Error adding product:", error);
 			toast.error(error as string);
 		}
-		// Handle form submission logic here, e.g., send data to an API
 	};
 
 	return (
 		<Form {...form}>
 			<form
 				className="space-y-6 mt-8"
-				onSubmit={() => form.handleSubmit(onSubmit)}
+				onSubmit={form.handleSubmit(onSubmit)} // Prevent default form submission and call handleSubmit
 			>
 				<FormField
 					control={form.control}
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Description</FormLabel>
+							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input
-									onChange={field.onChange}
-									value={field.value}
-									placeholder="e.g., Kuwaiti Thobe"
-									required
-								/>
+								<Input {...field} placeholder="e.g., Kuwaiti Thobe" required />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -69,7 +62,7 @@ export default function AddProductForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="name"
+					name="price"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Price</FormLabel>
@@ -78,8 +71,11 @@ export default function AddProductForm() {
 									placeholder="e.g., 100 SR"
 									type="number"
 									required
-									onChange={field.onChange}
-									value={field.value}
+									{...field}
+									onChange={(e) => {
+										const value = parseFloat(e.target.value);
+										field.onChange(isNaN(value) ? 0 : value); // Ensure the value is a number
+									}}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -88,17 +84,12 @@ export default function AddProductForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="name"
+					name="fabricType"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Fabric Type</FormLabel>
 							<FormControl>
-								<Input
-									placeholder="e.g., Fabric 1"
-									required
-									onChange={field.onChange}
-									value={field.value}
-								/>
+								<Input placeholder="e.g., Fabric 1" required {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -112,7 +103,7 @@ export default function AddProductForm() {
 							<FormLabel>Description</FormLabel>
 							<FormControl>
 								<Textarea
-									onChange={field.onChange}
+									{...field}
 									placeholder="e.g., A traditional Kuwaiti thobe crafted from premium lightweight cotton."
 									required
 								/>
@@ -128,21 +119,13 @@ export default function AddProductForm() {
 						<FormItem>
 							<FormLabel>Image</FormLabel>
 							<FormControl>
-								<Input
-									type="file"
-									onChange={field.onChange}
-									accept="image/*"
-									required
-								/>
+								<Input type="file" {...field} accept="image/*" />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<div className="flex gap-4 mt-6">
-					<Button variant="outline" type="button">
-						Cancel
-					</Button>
 					<LoadingButton
 						type="submit"
 						pending={form.formState.isSubmitting}
