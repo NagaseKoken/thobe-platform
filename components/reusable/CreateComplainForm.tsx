@@ -30,6 +30,7 @@ export default function CreateComplaintForm() {
 			toast.success("Complaint Created Successfully");
 			form.reset();
 		} catch (error) {
+			console.error("Error creating complaint:", error);
 			toast.error("Error Creating Complaint");
 		}
 	};

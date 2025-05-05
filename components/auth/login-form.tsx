@@ -1,7 +1,6 @@
 "use client";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import {
 	Form,
@@ -15,26 +14,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/schemas";
 import { FormSuccess } from "@/components/auth/form-success";
 import { FormError } from "@/components/auth/form-error";
-import { login } from "@/actions/login";
 import LoadingButton from "../reusable/loading-button";
 import authClient from "@/lib/auth-cilent";
 import { toast } from "sonner";
 
 export const LoginForm = () => {
-	const searchParams = useSearchParams();
-
-	const urlError =
-		searchParams.get("error") === "OAuthAccountNotLinked"
-			? "Email already in use with different provider"
-			: "";
-	//const [showTwoFactor,setShowTwoFactor] = useState(false)
-	const [error, setError] = useState<string | undefined>("");
-	const [success, setSuccess] = useState<string | undefined>("");
-	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 
 	const form = useForm<z.infer<typeof LoginSchema>>({
@@ -128,7 +116,7 @@ export const LoginForm = () => {
 												{...field}
 												placeholder="john.deo@example.com"
 												type="email"
-												disabled={isPending}
+												disabled={form.formState.isSubmitting}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -146,7 +134,7 @@ export const LoginForm = () => {
 												{...field}
 												placeholder="******"
 												type="password"
-												disabled={isPending}
+												disabled={form.formState.isSubmitting}
 											/>
 										</FormControl>
 										<Button
@@ -163,8 +151,8 @@ export const LoginForm = () => {
 							/>
 						</>
 					</div>
-					<FormError message={error || urlError} />
-					<FormSuccess message={success} />
+					<FormError message={"error"} />
+					<FormSuccess message={"success"} />
 					<LoadingButton
 						pending={form.formState.isSubmitting}
 						type="submit"
