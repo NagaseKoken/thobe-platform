@@ -1,65 +1,13 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "../ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { db } from "@/lib/db";
 import { deleteProduct } from "@/actions/delete-product";
 import { toast } from "sonner";
 import { queryClient } from "../reusable/provider";
 import LoadingButton from "../reusable/loading-button";
 import { useState } from "react";
-import { set } from "zod";
-import { get } from "http";
 import { getProducts } from "@/actions/queries";
-
-type Fabric = {
-	id: number;
-	name: string;
-	available: boolean;
-};
-
-type Product = {
-	id: number;
-	name: string;
-	available: boolean;
-};
-
-const fabrics: Fabric[] = [
-	{
-		id: 1,
-		name: "X",
-		available: true,
-	},
-	{
-		id: 2,
-		name: "Y",
-		available: true,
-	},
-	{
-		id: 3,
-		name: "Z",
-		available: true,
-	},
-];
-
-const products: Product[] = [
-	{
-		id: 1,
-		name: "X",
-		available: true,
-	},
-	{
-		id: 2,
-		name: "Y",
-		available: true,
-	},
-	{
-		id: 3,
-		name: "Z",
-		available: true,
-	},
-];
 
 export default function DeleteProductsTabs() {
 	const [beingDeleted, setBeingDeleted] = useState<string | null>(null);
