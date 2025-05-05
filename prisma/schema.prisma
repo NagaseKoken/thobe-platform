@@ -25,7 +25,7 @@ enum UserRole {
 }
 
 model User {
-  id            String        @id
+  id            String         @id
   name          String
   email         String
   emailVerified Boolean
@@ -43,6 +43,7 @@ model User {
   request       Request[]
   measurement   Measurement[]
   complaint     Complaint[]
+  workerProfile WorkerProfile?
 
   @@unique([email])
   @@map("user")
@@ -95,18 +96,19 @@ model Verification {
 }
 
 model Store {
-  id         String    @id @default(cuid())
-  name       String
-  location   String
-  status     Boolean
-  rating     Int
-  created_at DateTime
-  ownerId    String
-  image      String
-  requests   Request[]
-  products   Product[]
-  orders     Order[]
-  user       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  id            String          @id @default(cuid())
+  name          String
+  location      String
+  status        Boolean
+  rating        Int
+  created_at    DateTime
+  ownerId       String
+  image         String
+  requests      Request[]
+  products      Product[]
+  orders        Order[]
+  user          User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  workerProfile WorkerProfile[]
 
   @@unique([ownerId])
   @@map("stores")
@@ -137,7 +139,7 @@ model Order {
   customerId String
   storeId    String
   status     String
-  total      Decimal
+  total      Float
   created_at DateTime
 
   email       String?
@@ -202,8 +204,14 @@ model WorkerProfile {
   gender       String
   age          Int
   role         String
-  storeName    String
+  storeId      String
+  userId       String
   workingHours String
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }
 
 model Complaint {

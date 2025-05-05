@@ -12,14 +12,12 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { FormSuccess } from "@/components/auth/form-success";
-import { FormError } from "@/components/auth/form-error";
 import { RegisterSchema } from "@/schemas/index";
 import LoadingButton from "../reusable/loading-button";
 import authClient from "@/lib/auth-cilent";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { updateRole } from "@/actions/user-actions";
 
 export const RegisterForm = () => {
 	const router = useRouter();
@@ -45,19 +43,20 @@ export const RegisterForm = () => {
 		}
 		toast.success("Signed Up Successfully");
 		const role = "USER";
-		if (role === "USER") {
+		await updateRole(res.data.user.id, role.toUpperCase());
+		if (role.toUpperCase() === "USER") {
 			router.push("/home");
 			return;
 		}
-		if (role === "ADMIN") {
+		if (role.toUpperCase() === "ADMIN") {
 			router.push("/admin");
 			return;
 		}
-		if (role === "WORKER") {
+		if (role.toUpperCase() === "WORKER") {
 			router.push("/worker");
 			return;
 		}
-		if (role === "OWNER") {
+		if (role.toUpperCase() === "OWNER") {
 			router.push("/owner");
 			return;
 		}
@@ -138,8 +137,6 @@ export const RegisterForm = () => {
 							)}
 						/>
 					</div>
-					<FormError message={"error"} />
-					<FormSuccess message={"success"} />
 					<LoadingButton
 						type="submit"
 						pending={form.formState.isSubmitting}

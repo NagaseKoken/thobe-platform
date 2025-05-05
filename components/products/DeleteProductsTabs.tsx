@@ -69,7 +69,7 @@ export default function DeleteProductsTabs() {
 									key={fabric.id}
 									className="flex flex-row justify-between items-center border-b border-muted-foreground py-2"
 								>
-									<span>{fabric.name}</span>
+									<span className="flex-1">{fabric.name}</span>
 									<LoadingButton
 										type="button"
 										disabled={mutationPending}

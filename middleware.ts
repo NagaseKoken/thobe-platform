@@ -33,8 +33,8 @@
 
 import { getSessionCookie } from "better-auth/cookies";
 import { NextResponse } from "next/server";
-
-export default async function Middleware(request: Request) {
+import { NextRequest } from "next/server";
+export default async function Middleware(request: NextRequest) {
 	const sessionCookie = getSessionCookie(request);
 
 	if (!sessionCookie) {

@@ -16,8 +16,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/schemas";
-import { FormSuccess } from "@/components/auth/form-success";
-import { FormError } from "@/components/auth/form-error";
 import LoadingButton from "../reusable/loading-button";
 import authClient from "@/lib/auth-cilent";
 import { toast } from "sonner";
@@ -44,7 +42,9 @@ export const LoginForm = () => {
 			return;
 		}
 		toast.success("Signed Up Successfully");
-		const role = "USER";
+		const session = await authClient.getSession();
+		const role = session.data?.user.role?.toUpperCase() ?? "USER";
+
 		if (role === "USER") {
 			router.push("/home");
 			return;
@@ -151,8 +151,6 @@ export const LoginForm = () => {
 							/>
 						</>
 					</div>
-					<FormError message={"error"} />
-					<FormSuccess message={"success"} />
 					<LoadingButton
 						pending={form.formState.isSubmitting}
 						type="submit"

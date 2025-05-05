@@ -56,3 +56,24 @@ export const ProductSchema = z.object({
 	description: z.string().min(1, "Description is required"),
 	image: z.string().optional(),
 });
+// interface Profile {
+// 	name: string;
+// 	email: string;
+// 	phone: string;
+// 	gender: string;
+// 	age: number;
+// 	role: string;
+// 	storeName: string;
+// 	workingHours: string;
+// }
+
+export const ProfileSchema = z.object({
+	name: z.string().min(1, "Name is required"),
+	email: z.string().email("Invalid email address"),
+	phone: z.string().optional(),
+	gender: z.enum(["male", "female"]),
+	age: z.coerce.number().optional(),
+	role: z.enum(["admin", "user", "owner", "worker"]),
+	workingHours: z.string().optional(),
+	storeName: z.string().optional(),
+});
