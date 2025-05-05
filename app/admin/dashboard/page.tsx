@@ -1,204 +1,233 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Navbar from "@/components/reusable/navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import Footer from "@/components/reusable/Footer";
 import { ChartCard } from "@/components/admin/ChartCard";
 import { Menu } from "lucide-react";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs";
-
-interface DataPoint {
-  name: string;
-  value: number;
-}
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useQuery } from "@tanstack/react-query";
+import { getDashboardData } from "@/actions/user-actions";
 
 export default function DashboardPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [userCount, setUserCount] = useState(0);
-  const [storeCount, setStoreCount] = useState(0);
-  const [salesData, setSalesData] = useState<DataPoint[]>([]);
-  const [usersData, setUsersData] = useState<DataPoint[]>([]);
-  const [loading, setLoading] = useState(true);
+	const [sidebarOpen, setSidebarOpen] = useState(false);
+	// const [userCount, setUserCount] = useState(0);
+	// const [storeCount, setStoreCount] = useState(0);
+	// const [salesData, setSalesData] = useState<DataPoint[]>([]);
+	// const [usersData, setUsersData] = useState<DataPoint[]>([]);
+	// const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchDashboardData() {
-      setLoading(true);
-      try {
-        const [usersRes, storesRes] = await Promise.all([
-          fetch("/api/users"),
-          fetch("/api/stores"),
-        ]);
+	const { data: dashboardData, isPending: loading } = useQuery({
+		queryKey: ["dashboardData"],
+		queryFn: getDashboardData,
+	});
+	const userCount = useMemo(() => {
+		return dashboardData?.usersData.reduce((acc, curr) => acc + curr.value, 0);
+	}, [dashboardData]);
+	const storeCount = useMemo(() => {
+		return dashboardData?.salesData.reduce((acc, curr) => acc + curr.value, 0);
+	}, [dashboardData]);
+	const salesData = useMemo(() => {
+		return dashboardData?.salesData;
+	}, [dashboardData]);
+	const usersData = useMemo(() => {
+		return dashboardData?.usersData;
+	}, [dashboardData]);
 
-        interface User {
-          id: string;
-          name: string;
-          email: string;
-          createdAt?: string;
-          created_at?: string;
-          date?: string;
-        }
+	// useEffect(() => {
+	// 	async function fetchDashboardData() {
+	// 		setLoading(true);
+	// 		try {
+	// 			const [usersRes, storesRes] = await Promise.all([
+	// 				fetch("/api/users"),
+	// 				fetch("/api/stores"),
+	// 			]);
 
-        const users: User[] = await usersRes.json();
-        const stores: User[] = await storesRes.json();
+	// 			interface User {
+	// 				id: string;
+	// 				name: string;
+	// 				email: string;
+	// 				createdAt?: string;
+	// 				created_at?: string;
+	// 				date?: string;
+	// 			}
 
-        // Overall counts
-        const totalUsers = Array.isArray(users) ? users.length : 0;
-        const totalStores = Array.isArray(stores) ? stores.length : 0;
-        setUserCount(totalUsers);
-        setStoreCount(totalStores);
+	// 			const users: User[] = await usersRes.json();
+	// 			const stores: User[] = await storesRes.json();
 
-        // Build last 30 days array
-        const last30Dates: Date[] = [];
-        for (let i = 29; i >= 0; i--) {
-          const d = new Date();
-          d.setDate(d.getDate() - i);
-          last30Dates.push(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
-        }
+	// 			// Overall counts
+	// 			const totalUsers = Array.isArray(users) ? users.length : 0;
+	// 			const totalStores = Array.isArray(stores) ? stores.length : 0;
+	// 			setUserCount(totalUsers);
+	// 			setStoreCount(totalStores);
 
-        const labels = last30Dates.map((d) =>
-          d.toLocaleDateString(undefined, { month: "short", day: "numeric" })
-        );
+	// 			// Build last 30 days array
+	// 			const last30Dates: Date[] = [];
+	// 			for (let i = 29; i >= 0; i--) {
+	// 				const d = new Date();
+	// 				d.setDate(d.getDate() - i);
+	// 				last30Dates.push(
+	// 					new Date(d.getFullYear(), d.getMonth(), d.getDate())
+	// 				);
+	// 			}
 
-        // --- Stores: daily new and cumulative ---
-        const newStoresPerDay = last30Dates.map((date) =>
-          stores.filter((s) => {
-            const ts = s.createdAt || s.created_at || s.date;
-            if (!ts) return false;
-            const created = new Date(ts);
-            return (
-              created.getFullYear() === date.getFullYear() &&
-              created.getMonth() === date.getMonth() &&
-              created.getDate() === date.getDate()
-            );
-          }).length
-        );
+	// 			const labels = last30Dates.map((d) =>
+	// 				d.toLocaleDateString(undefined, { month: "short", day: "numeric" })
+	// 			);
 
-        const cumulativeStores = newStoresPerDay.reduce<number[]>((acc, count, idx) => {
-          acc.push(idx === 0 ? count : count + acc[idx - 1]);
-          return acc;
-        }, []);
+	// 			// --- Stores: daily new and cumulative ---
+	// 			const newStoresPerDay = last30Dates.map(
+	// 				(date) =>
+	// 					stores.filter((s) => {
+	// 						const ts = s.createdAt || s.created_at || s.date;
+	// 						if (!ts) return false;
+	// 						const created = new Date(ts);
+	// 						return (
+	// 							created.getFullYear() === date.getFullYear() &&
+	// 							created.getMonth() === date.getMonth() &&
+	// 							created.getDate() === date.getDate()
+	// 						);
+	// 					}).length
+	// 			);
 
-        setSalesData(
-          labels.map((name, idx) => ({
-            name,
-            value: cumulativeStores[idx],
-          }))
-        );
+	// 			const cumulativeStores = newStoresPerDay.reduce<number[]>(
+	// 				(acc, count, idx) => {
+	// 					acc.push(idx === 0 ? count : count + acc[idx - 1]);
+	// 					return acc;
+	// 				},
+	// 				[]
+	// 			);
 
-        // --- Users: daily new and cumulative ---
-        let newUsersPerDay = last30Dates.map((date) =>
-          users.filter((u) => {
-            const ts = u.createdAt || u.created_at || u.date;
-            if (!ts) return false;
-            const created = new Date(ts);
-            return (
-              created.getFullYear() === date.getFullYear() &&
-              created.getMonth() === date.getMonth() &&
-              created.getDate() === date.getDate()
-            );
-          }).length
-        );
+	// 			setSalesData(
+	// 				labels.map((name, idx) => ({
+	// 					name,
+	// 					value: cumulativeStores[idx],
+	// 				}))
+	// 			);
 
-        const hasUserTimestamps = newUsersPerDay.some((n) => n > 0);
+	// 			// --- Users: daily new and cumulative ---
+	// 			let newUsersPerDay = last30Dates.map(
+	// 				(date) =>
+	// 					users.filter((u) => {
+	// 						const ts = u.createdAt || u.created_at || u.date;
+	// 						if (!ts) return false;
+	// 						const created = new Date(ts);
+	// 						return (
+	// 							created.getFullYear() === date.getFullYear() &&
+	// 							created.getMonth() === date.getMonth() &&
+	// 							created.getDate() === date.getDate()
+	// 						);
+	// 					}).length
+	// 			);
 
-        if (!hasUserTimestamps) {
-          // If no timestamps, show all users only on the last day
-          newUsersPerDay = newUsersPerDay.map((_, idx) =>
-            idx === newUsersPerDay.length - 1 ? totalUsers : 0
-          );
-        }
+	// 			const hasUserTimestamps = newUsersPerDay.some((n) => n > 0);
 
-        const cumulativeUsers = newUsersPerDay.reduce<number[]>((acc, count, idx) => {
-          acc.push(idx === 0 ? count : count + acc[idx - 1]);
-          return acc;
-        }, []);
+	// 			if (!hasUserTimestamps) {
+	// 				// If no timestamps, show all users only on the last day
+	// 				newUsersPerDay = newUsersPerDay.map((_, idx) =>
+	// 					idx === newUsersPerDay.length - 1 ? totalUsers : 0
+	// 				);
+	// 			}
 
-        setUsersData(
-          labels.map((name, idx) => ({
-            name,
-            value: cumulativeUsers[idx],
-          }))
-        );
-      } catch (err) {
-        console.error("Error fetching dashboard data:", err);
-        setUserCount(0);
-        setStoreCount(0);
-        setSalesData([]);
-        setUsersData([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchDashboardData();
-  }, []);
+	// 			const cumulativeUsers = newUsersPerDay.reduce<number[]>(
+	// 				(acc, count, idx) => {
+	// 					acc.push(idx === 0 ? count : count + acc[idx - 1]);
+	// 					return acc;
+	// 				},
+	// 				[]
+	// 			);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Loading dashboard...</p>
-      </div>
-    );
-  }
+	// 			setUsersData(
+	// 				labels.map((name, idx) => ({
+	// 					name,
+	// 					value: cumulativeUsers[idx],
+	// 				}))
+	// 			);
+	// 		} catch (err) {
+	// 			console.error("Error fetching dashboard data:", err);
+	// 			setUserCount(0);
+	// 			setStoreCount(0);
+	// 			setSalesData([]);
+	// 			setUsersData([]);
+	// 		} finally {
+	// 			setLoading(false);
+	// 		}
+	// 	}
+	// 	fetchDashboardData();
+	// }, []);
 
-  return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <Navbar />
-      <div className="flex flex-1">
-        <button
-          className="fixed left-4 top-20 p-2 bg-white rounded-lg shadow-lg md:hidden"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          <Menu className="w-6 h-6" />
-        </button>
+	if (loading) {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<p>Loading dashboard...</p>
+			</div>
+		);
+	}
 
-        <aside
-          className={`
+	return (
+		<div className="flex flex-col min-h-screen bg-background">
+			<Navbar />
+			<div className="flex flex-1">
+				<button
+					className="fixed left-4 top-20 p-2 bg-white rounded-lg shadow-lg md:hidden"
+					onClick={() => setSidebarOpen(!sidebarOpen)}
+				>
+					<Menu className="w-6 h-6" />
+				</button>
+
+				<aside
+					className={`
             fixed md:static w-64 bg-white h-full transition-transform
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
           `}
-        >
-          <Sidebar />
-        </aside>
+				>
+					<Sidebar />
+				</aside>
 
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
+				{sidebarOpen && (
+					<div
+						className="fixed inset-0 bg-black/50 md:hidden"
+						onClick={() => setSidebarOpen(false)}
+					/>
+				)}
 
-        <main className="flex-1 p-6 space-y-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          </div>
+				<main className="flex-1 p-6 space-y-6">
+					<div className="flex items-center justify-between">
+						<h1 className="text-3xl font-bold">Admin Dashboard</h1>
+					</div>
 
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="reports">Reports</TabsTrigger>
-            </TabsList>
+					<Tabs defaultValue="overview" className="space-y-4">
+						<TabsList>
+							<TabsTrigger value="overview">Overview</TabsTrigger>
+							<TabsTrigger value="reports">Reports</TabsTrigger>
+						</TabsList>
 
-            <TabsContent value="overview">
-              <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ChartCard title="Stores" value={storeCount} change="" data={salesData} />
-                <ChartCard title="Users" value={userCount} change="" data={usersData} />
-              </div>
-            </TabsContent>
+						<TabsContent value="overview">
+							<h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<ChartCard
+									title="Stores"
+									value={storeCount}
+									change=""
+									data={salesData ?? []}
+								/>
+								<ChartCard
+									title="Users"
+									value={userCount}
+									change=""
+									data={usersData ?? []}
+								/>
+							</div>
+						</TabsContent>
 
-            <TabsContent value="reports">
-              <p>Reports not coming soon.</p>
-            </TabsContent>
-          </Tabs>
-        </main>
-      </div>
-      <Footer />
-    </div>
-  );
+						<TabsContent value="reports">
+							<p>Reports not coming soon.</p>
+						</TabsContent>
+					</Tabs>
+				</main>
+			</div>
+			<Footer />
+		</div>
+	);
 }

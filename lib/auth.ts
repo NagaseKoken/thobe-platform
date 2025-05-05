@@ -8,6 +8,9 @@ export const auth = betterAuth({
 		provider: "postgresql",
 		usePlural: false,
 	}),
+	user: {
+		additionalFields: { role: { type: "string", defaultValue: "USER" } },
+	},
 	session: {
 		expiresIn: 60 * 60 * 24 * 30, // 30 days
 		updateAge: 60 * 60 * 24, // 24 hours

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
 	ShoppingBagIcon,
@@ -16,6 +16,9 @@ import {
 } from "@heroicons/react/24/outline";
 import Navbar from "@/components/reusable/navbar";
 import Footer from "@/components/reusable/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { getWorkerProfile } from "@/actions/worker-queries";
+import { queryClient } from "@/components/reusable/provider";
 
 interface Profile {
 	name: string;
@@ -60,28 +63,30 @@ const Sidebar: React.FC = () => (
 );
 
 export default function WorkerProfilePage() {
-	const [profile, setProfile] = useState<Profile | null>(null);
+	// const [editedProfile, setProfile] = useState<Profile | null>(null);
 	const [edited, setEdited] = useState<Profile | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		fetch("/api/worker/profile")
-			.then((res) => {
-				if (!res.ok) throw new Error("Failed to load profile");
-				return res.json();
-			})
-			.then((data: Profile) => {
-				setProfile(data);
-				setEdited(data);
-			})
-			.catch((err) => console.error(err))
-			.finally(() => setLoading(false));
-	}, []);
+	// const [loading, setLoading] = useState(true);
+	const { data: profile, isPending: loading } = useQuery({
+		queryKey: ["profile"],
+		queryFn: getWorkerProfile,
+	});
+	// useEffect(() => {
+	// 	fetch("/api/worker/profile")
+	// 		.then((res) => {
+	// 			if (!res.ok) throw new Error("Failed to load profile");
+	// 			return res.json();
+	// 		})
+	// 		.then((data: Profile) => {
+	// 			setProfile(data);
+	// 			setEdited(data);
+	// 		})
+	// 		.catch((err) => console.error(err))
+	// 		.finally(() => setLoading(false));
+	// }, []);
 
 	const handleEditToggle = () => {
 		if (isEditing && edited) {
-			setProfile(edited);
 			fetch("/api/worker/profile", {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
@@ -89,6 +94,7 @@ export default function WorkerProfilePage() {
 			}).catch((err) => console.error("Save failed:", err));
 		}
 		setIsEditing((prev) => !prev);
+		queryClient.invalidateQueries({ queryKey: ["profile"] });
 	};
 
 	const handleChange = (
