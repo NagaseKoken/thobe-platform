@@ -31,19 +31,36 @@
 // 	return NextResponse.next();
 // });
 
+// import { getSessionCookie } from "better-auth/cookies";
+// import { NextResponse } from "next/server";
+// import { NextRequest } from "next/server";
+// export default async function Middleware(request: NextRequest) {
+// 	const sessionCookie = getSessionCookie(request);
+
+// 	if (!sessionCookie) {
+// 		return NextResponse.redirect(new URL("/auth/login", request.url));
+// 	}
+// 	return NextResponse.next();
+// }
+
+// // Optionally, don't invoke Middleware on some paths
+// export const config = {
+// 	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)", "/home"],
+// };
+
+import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
-export default async function Middleware(request: NextRequest) {
+
+export async function middleware(request: NextRequest) {
 	const sessionCookie = getSessionCookie(request);
 
 	if (!sessionCookie) {
 		return NextResponse.redirect(new URL("/auth/login", request.url));
 	}
+
 	return NextResponse.next();
 }
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
-	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)", "/home"],
+	matcher: ["/admin", "/worker", "/owner", "/home"],
 };
