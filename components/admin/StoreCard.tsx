@@ -29,7 +29,7 @@ export function StoreCard({ store }: StoreCardProps) {
 	// 	loadProducts();
 	// }, [store.id]);
 
-	const { id, name, location, rating, status, image } = store;
+	const { id, name, location, rating, status } = store;
 
 	const { mutate } = useMutation({
 		mutationKey: ["delte-store"],
@@ -60,21 +60,22 @@ export function StoreCard({ store }: StoreCardProps) {
 	return (
 		<div className="p-6 bg-white rounded-lg shadow border space-y-4">
 			{/* Store Image */}
-			<div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
-				{image ? (
-					<Image
-						src={"https://placehold.co/1200x600"}
-						alt={`${name} store`}
-						fill
-						className="object-cover"
-						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-					/>
-				) : (
-					<div className="w-full h-full bg-gray-100 flex items-center justify-center">
-						<StoreIcon className="h-12 w-12 text-gray-400" />
-					</div>
-				)}
-			</div>
+            <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
+                {store.image ? (
+                    <Image
+                        src={store.image}
+                        alt={`${store.name} store`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                ) : (
+                    // Fallback image or placeholder
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                        <StoreIcon className="h-12 w-12 text-gray-400" />
+                    </div>
+                )}
+            </div>
 			{/* Header */}
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-3">

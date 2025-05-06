@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { UserRole } from "@prisma/client";
 import Navbar from "@/components/reusable/navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import Footer from "@/components/reusable/Footer";
@@ -11,11 +10,10 @@ import { Menu, Search, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AddUserModal } from "@/components/admin/AddUserModal";
 import { useQuery } from "@tanstack/react-query";
-import { getUsers, updateRole } from "@/actions/user-actions";
-import authClient from "@/lib/auth-cilent";
+import { getUsers } from "@/actions/user-actions";
+import { createUser } from "@/actions/create-user";
 import { toast } from "sonner";
 import { queryClient } from "@/components/reusable/provider";
-
 export default function UserManagementPage() {
 	// const [users, setUsers] = useState<User[]>([]);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -46,28 +44,23 @@ export default function UserManagementPage() {
 		email: string;
 		password: string;
 		role: UserRole;
-	}) => {
+	  }) => {
 		try {
-			const newUser = await authClient.admin.createUser({
-				name: userData.name,
-				email: userData.email,
-				password: userData.password,
-				role: "user",
-			});
-			if (newUser.error) {
-				throw new Error(newUser.error.message);
-			} else {
-				await updateRole(newUser.data.user.id, userData.role);
-				toast.success("User created successfully!");
-				queryClient.invalidateQueries({ queryKey: ["users"] });
-				setIsAddModalOpen(false);
-				return;
-			}
+		  const result = await createUser(userData);
+		  
+		  if (result.error) {
+			toast.error(result.error);
+			return;
+		  }
+		  
+		  toast.success("User created successfully!");
+		  queryClient.invalidateQueries({ queryKey: ["users"] });
+		  setIsAddModalOpen(false);
 		} catch (error) {
-			console.error(error);
-			toast.error("Error Creating User");
+		  console.error(error);
+		  toast.error("Error creating user");
 		}
-	};
+	  };
 
 	const filteredUsers = users?.filter(
 		(user) =>
