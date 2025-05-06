@@ -40,7 +40,7 @@ The **Thobe Platform** revolutionizes the traditional thobe purchasing experienc
 - 🟢 **Node.js** 18.x
 - 📦 **Prisma** (ORM for database management)
 - 🐘 **PostgreSQL** (Relational database)
-
+- 🔒 **Better Auth** (Authentication management)
 
 ### **Additional Tools**
 - 🖌️ **UI Components**: Radix UI, Shadcn/ui
