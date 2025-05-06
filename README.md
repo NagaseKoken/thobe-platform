@@ -35,16 +35,13 @@ The **Thobe Platform** revolutionizes the traditional thobe purchasing experienc
 - ⚡ **Next.js** 14.x
 - ⚛️ **React** 18.x
 - 🎨 **TailwindCSS** 3.x
+- 🧩 **Shadcn/UI** — reusable UI components
 
 ### **Backend**
 - 🟢 **Node.js** 18.x
-- 🚀 **Express** 4.x
-
-
-### **Additional Tools**
-- 🖌️ **UI Components**: Radix UI, Shadcn/ui
-- 🔄 **State Management**: React Query, Zustand
-- 🛠️ **Development Tools**: TypeScript 5.x, ESLint, Prettier
+- 🔐 **BetterAuth** — authentication system
+- 🐘 **PostgreSQL** — database
+- 🔧 **Prisma** — ORM for PostgreSQL
 
 ---
 
