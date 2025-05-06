@@ -52,7 +52,6 @@ The **Thobe Platform** revolutionizes the traditional thobe purchasing experienc
 - 🖌️ **UI Components**: Radix UI, Shadcn/ui
 - 🔄 **State Management**: React Query
 - 🛠️ **Development Tools**: TypeScript 5.x, ESLint, Prettier
->>>>>>> 674cd5ffab5d18b4e69097c54d53b1bb198dc571
 
 ---
 
