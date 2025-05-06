@@ -38,12 +38,13 @@ The **Thobe Platform** revolutionizes the traditional thobe purchasing experienc
 
 ### **Backend**
 - 🟢 **Node.js** 18.x
-- 🚀 **Express** 4.x
+- 📦 **Prisma** (ORM for database management)
+- 🐘 **PostgreSQL** (Relational database)
 
 
 ### **Additional Tools**
 - 🖌️ **UI Components**: Radix UI, Shadcn/ui
-- 🔄 **State Management**: React Query, Zustand
+- 🔄 **State Management**: React Query
 - 🛠️ **Development Tools**: TypeScript 5.x, ESLint, Prettier
 
 ---
