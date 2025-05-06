@@ -39,9 +39,20 @@ The **Thobe Platform** revolutionizes the traditional thobe purchasing experienc
 
 ### **Backend**
 - 🟢 **Node.js** 18.x
+<<<<<<< HEAD
 - 🔐 **BetterAuth** — authentication system
 - 🐘 **PostgreSQL** — database
 - 🔧 **Prisma** — ORM for PostgreSQL
+=======
+- 📦 **Prisma** (ORM for database management)
+- 🐘 **PostgreSQL** (Relational database)
+- 🔒 **Better Auth** (Authentication management)
+
+### **Additional Tools**
+- 🖌️ **UI Components**: Radix UI, Shadcn/ui
+- 🔄 **State Management**: React Query
+- 🛠️ **Development Tools**: TypeScript 5.x, ESLint, Prettier
+>>>>>>> 674cd5ffab5d18b4e69097c54d53b1bb198dc571
 
 ---
 
